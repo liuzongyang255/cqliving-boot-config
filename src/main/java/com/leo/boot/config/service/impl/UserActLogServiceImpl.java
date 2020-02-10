@@ -55,7 +55,7 @@ public class UserActLogServiceImpl extends AbstractService implements UserActLog
      *    @return int
      */
     @Override
-    public int batchInsert( Iterable list){
+    public int batchInsert( Iterable<UserActLogDO> list){
         return userActLogDAO.batchInsert( list );
     }
 
@@ -125,7 +125,7 @@ public class UserActLogServiceImpl extends AbstractService implements UserActLog
      *    @return List<UserActLogDO>
      */
     @Override
-    public List<UserActLogDO> findByIdIn( Iterable list){
+    public List<UserActLogDO> findByIdIn( Iterable<Long>  list){
         return userActLogDAO.findByIdIn( list );
     }
 
@@ -135,7 +135,7 @@ public class UserActLogServiceImpl extends AbstractService implements UserActLog
      *    @return int
      */
     @Override
-    public int deleteByIdIn( Iterable list){
+    public int deleteByIdIn( Iterable<Long>  list){
         return userActLogDAO.deleteByIdIn( list );
     }
     

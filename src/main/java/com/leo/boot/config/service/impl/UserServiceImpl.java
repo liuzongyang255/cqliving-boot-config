@@ -52,7 +52,7 @@ public class UserServiceImpl extends AbstractService implements UserService{
      *    @return int
      */
     @Override
-    public int batchInsert( Iterable list){
+    public int batchInsert( Iterable<UserDO> list){
         return userDAO.batchInsert( list );
     }
 
@@ -154,7 +154,7 @@ public class UserServiceImpl extends AbstractService implements UserService{
      *    @return List<UserDO>
      */
     @Override
-    public List<UserDO> findByUserNameIn( Iterable list){
+    public List<UserDO> findByUserNameIn( Iterable<String> list){
         return userDAO.findByUserNameIn( list );
     }
 
@@ -164,7 +164,7 @@ public class UserServiceImpl extends AbstractService implements UserService{
      *    @return int
      */
     @Override
-    public int deleteByUserNameIn( Iterable list){
+    public int deleteByUserNameIn( Iterable<String> list){
         return userDAO.deleteByUserNameIn( list );
     }
 
@@ -194,7 +194,7 @@ public class UserServiceImpl extends AbstractService implements UserService{
      *    @return List<UserDO>
      */
     @Override
-    public List<UserDO> findByIdIn( Iterable list){
+    public List<UserDO> findByIdIn( Iterable<Long> list){
         return userDAO.findByIdIn( list );
     }
 
@@ -204,7 +204,7 @@ public class UserServiceImpl extends AbstractService implements UserService{
      *    @return int
      */
     @Override
-    public int deleteByIdIn( Iterable list){
+    public int deleteByIdIn( Iterable<Long> list){
         return userDAO.deleteByIdIn( list );
     }
     

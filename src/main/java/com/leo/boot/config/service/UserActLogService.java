@@ -34,7 +34,7 @@ public interface UserActLogService{
      *    @param list
      *    @return int
      */
-    public int batchInsert( Iterable list);
+    public int batchInsert( Iterable<UserActLogDO> list);
 
     /**
      * <p>根据输入条件分页查询数据</p>
@@ -83,14 +83,14 @@ public interface UserActLogService{
      *    @param list
      *    @return List<UserActLogDO>
      */
-    public List<UserActLogDO> findByIdIn( Iterable list);
+    public List<UserActLogDO> findByIdIn( Iterable<Long> list);
 
     /**
      * <p>根据主键列表删除多条数据</p>
      *    @param list
      *    @return int
      */
-    public int deleteByIdIn( Iterable list);
+    public int deleteByIdIn( Iterable<Long> list);
 
     public PaginationResponse<UserActLogDTO> page(UserActLogQuery dto);
 

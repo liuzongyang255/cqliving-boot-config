@@ -3,16 +3,14 @@
  * Copyright (c) 2020 All Rights Reserved.
  */
 package com.leo.boot.config.dal.entity;
-import cqliving.framework.cloud.core.pojo.BaseDO;
-import lombok.Data;
-import java.util.List;
-import cqliving.framework.cloud.core.pojo.BaseDO;
 import java.util.Date;
-import java.util.ArrayList;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 /**
  * <p> user_act_log do层</p>
  */
 @Data
+@EqualsAndHashCode(callSuper=false)
 public class UserActLogDO  extends cqliving.framework.cloud.core.pojo.BaseDO {
 
     private static final long serialVersionUID = -4282603875229233564L;

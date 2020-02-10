@@ -32,7 +32,7 @@ public interface UserService{
      *    @param list
      *    @return int
      */
-    public int batchInsert( Iterable list);
+    public int batchInsert( Iterable<UserDO> list);
 
     /**
      * <p>根据输入条件分页查询数据</p>
@@ -104,14 +104,14 @@ public interface UserService{
      *    @param list
      *    @return List<UserDO>
      */
-    public List<UserDO> findByUserNameIn( Iterable list);
+    public List<UserDO> findByUserNameIn( Iterable<String> list);
 
     /**
      * <p>根据主键列表删除多条数据</p>
      *    @param list
      *    @return int
      */
-    public int deleteByUserNameIn( Iterable list);
+    public int deleteByUserNameIn( Iterable<String> list);
 
     /**
      * <p>根据指定字段的值查询数据</p>
@@ -132,14 +132,14 @@ public interface UserService{
      *    @param list
      *    @return List<UserDO>
      */
-    public List<UserDO> findByIdIn( Iterable list);
+    public List<UserDO> findByIdIn( Iterable<Long> list);
 
     /**
      * <p>根据主键列表删除多条数据</p>
      *    @param list
      *    @return int
      */
-    public int deleteByIdIn( Iterable list);
+    public int deleteByIdIn( Iterable<Long> list);
     
     public void login(UserDto user);
 

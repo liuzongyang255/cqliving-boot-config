@@ -2,6 +2,8 @@ package com.leo.boot.config.dal.query;
 
 import java.util.Date;
 import cqliving.framework.cloud.core.pojo.BaseQuery;
+import lombok.Data;
+import lombok.EqualsAndHashCode;
 
 /********************************************************/
 /*
@@ -19,6 +21,8 @@ Brief Description: TODO
 caution: something to be cautioned*/
 /********************************************************/
 
+@Data
+@EqualsAndHashCode(callSuper=false)
 public class UserActLogQuery extends BaseQuery{
 
     private static final long serialVersionUID = 5438465757332683628L;
