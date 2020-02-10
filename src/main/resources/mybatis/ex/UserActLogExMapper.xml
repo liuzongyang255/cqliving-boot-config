@@ -1,0 +1,50 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    user_act_log                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.UserActLogExDAO">
+
+
+    <sql id="userActLog_Columns">
+        userActLog.id,
+        userActLog.user_id,
+        userActLog.api_name,
+        userActLog.api_url,
+        userActLog.params,
+        userActLog.create_time
+    </sql>
+    
+    <select id="query" resultType="com.leo.boot.config.dal.dto.UserActLogDTO">
+        SELECT 
+            <include refid="userActLog_Columns"/>
+            , u.real_name
+          FROM user_act_log userActLog
+          JOIN `user` u
+        <where>
+            <if test="userActLog.realName !=null and userActLog.realName!=''" >
+                AND u.real_name like #{userActLog.realName}
+            </if>
+            <if test="userActLog.id !=null " >
+                AND userActLog.id = #{userActLog.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 用户表id -->
+            <if test="userActLog.userId !=null " >
+                AND userActLog.user_id = #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- api名 -->
+            <if test="userActLog.apiName !=null  and userActLog.apiName!='' " >
+                AND userActLog.api_name = #{userActLog.apiName,jdbcType=VARCHAR} 
+            </if>
+            <!-- api路径 -->
+            <if test="userActLog.apiUrl !=null  and userActLog.apiUrl!='' " >
+                AND userActLog.api_url = #{userActLog.apiUrl,jdbcType=VARCHAR} 
+            </if>
+            <!-- 参数 -->
+            <if test="userActLog.params !=null  and userActLog.params!='' " >
+                AND userActLog.params = #{userActLog.params,jdbcType=VARCHAR} 
+            </if>
+        </where>
+
+    </select>
+</mapper>

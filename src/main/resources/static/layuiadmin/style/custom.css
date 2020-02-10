@@ -1,0 +1,17 @@
+.layui-side-menu .layui-nav .layui-nav-item .layui-icon {
+    top: 61%;
+}
+
+.layui-side-menu .layui-nav .layui-nav-item a {
+    height: 33px;
+    line-height: 32px;
+}
+
+.layui-table-cell {
+    height: 22px;
+    line-height: 20px;
+}
+
+.layui-table td, .layui-table th{
+	font-size: 12px;
+}

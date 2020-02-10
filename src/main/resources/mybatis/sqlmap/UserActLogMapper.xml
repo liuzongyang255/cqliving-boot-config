@@ -1,0 +1,322 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    user_act_log                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.UserActLogDAO">
+    <!-- ============================================= -->
+    <!-- RESULT MAPS                                   -->
+    <!-- ============================================= -->
+    <!-- result maps for database table user_act_log -->
+    <resultMap id="userActLogDO" type="com.leo.boot.config.dal.entity.UserActLogDO">
+        <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="userId" column="user_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="apiName" column="api_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="apiUrl" column="api_url" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="params" column="params" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="createTime" column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+    </resultMap>
+
+
+    <sql id="userActLog_Columns">
+        userActLog.id,
+        userActLog.user_id,
+        userActLog.api_name,
+        userActLog.api_url,
+        userActLog.params,
+        userActLog.create_time
+    </sql>
+
+    <sql id="Base_Column_List">
+        id,
+        user_id,
+        api_name,
+        api_url,
+        params,
+        create_time
+    </sql>
+
+    <!-- ============================================= -->
+    <!-- mapped statements for UserActLogDAO -->
+    <!-- ============================================= -->
+
+    <!-- mapped statement for UserActLogDAO.insert -->
+    <!-- 插入数据 -->
+    <insert id="insert">
+        
+        INSERT INTO user_act_log
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户表id -->
+            user_id ,
+            <!-- api名 -->
+            api_name ,
+            <!-- api路径 -->
+            api_url ,
+            <!-- 参数 -->
+            params ,
+            <!-- 创建时间 -->
+            create_time ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 用户表id -->
+            #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            <!-- api名 -->
+            #{userActLog.apiName,jdbcType=VARCHAR},
+            <!-- api路径 -->
+            #{userActLog.apiUrl,jdbcType=VARCHAR},
+            <!-- 参数 -->
+            #{userActLog.params,jdbcType=VARCHAR},
+            <!-- 创建时间 -->
+            #{userActLog.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for UserActLogDAO.insertSelective -->
+    <!-- 插入不为空的数据 -->
+    <insert id="insertSelective">
+        
+        INSERT INTO user_act_log
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户表id -->
+            user_id ,
+            <!-- api名 -->
+            api_name ,
+            <!-- api路径 -->
+            api_url ,
+            <!-- 参数 -->
+            <if test="userActLog.params!=null  and userActLog.params!='' " >
+                params ,
+            </if>
+            <!-- 创建时间 -->
+            create_time ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 用户表id -->
+            #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            <!-- api名 -->
+            #{userActLog.apiName,jdbcType=VARCHAR},
+            <!-- api路径 -->
+            #{userActLog.apiUrl,jdbcType=VARCHAR},
+            <!-- 参数 -->
+            <if test="userActLog.params!=null  and userActLog.params!='' " >
+                #{userActLog.params,jdbcType=VARCHAR},
+            </if>
+            <!-- 创建时间 -->
+            #{userActLog.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for UserActLogDAO.batchInsert -->
+    <!-- 批量插入数据 -->
+    <insert id="batchInsert">
+        
+        INSERT INTO user_act_log
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户表id -->
+            user_id ,
+            <!-- api名 -->
+            api_name ,
+            <!-- api路径 -->
+            api_url ,
+            <!-- 参数 -->
+            params ,
+            <!-- 创建时间 -->
+            create_time ,
+        </trim>
+        )VALUES
+        <foreach collection="list" item="userActLog"  separator="," > 
+            (
+            <trim suffixOverrides=",">
+                <!-- 用户表id -->
+                #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+                <!-- api名 -->
+                #{userActLog.apiName},
+                <!-- api路径 -->
+                #{userActLog.apiUrl},
+                <!-- 参数 -->
+                #{userActLog.params},
+                <!-- 创建时间 -->
+                #{userActLog.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <!-- mapped statement for UserActLogDAO.query -->
+    <!-- 根据输入条件分页查询数据 -->
+    <select id="query" resultMap="userActLogDO">
+        
+        SELECT 
+            <include refid="userActLog_Columns"/>
+          FROM user_act_log userActLog
+        <where>
+            <if test="userActLog.id !=null " >
+                AND id = #{userActLog.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 用户表id -->
+            <if test="userActLog.userId !=null " >
+                AND user_id = #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- api名 -->
+            <if test="userActLog.apiName !=null  and userActLog.apiName!='' " >
+                AND api_name = #{userActLog.apiName,jdbcType=VARCHAR} 
+            </if>
+            <!-- api路径 -->
+            <if test="userActLog.apiUrl !=null  and userActLog.apiUrl!='' " >
+                AND api_url = #{userActLog.apiUrl,jdbcType=VARCHAR} 
+            </if>
+            <!-- 参数 -->
+            <if test="userActLog.params !=null  and userActLog.params!='' " >
+                AND params = #{userActLog.params,jdbcType=VARCHAR} 
+            </if>
+            <!-- 创建时间 -->
+            <if test="userActLog.createTime !=null " >
+                AND create_time = #{userActLog.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date} 
+            </if>
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for UserActLogDAO.update -->
+    <!-- 根据主键修改数据 -->
+    <update id="update">
+        
+        UPDATE user_act_log
+        <set>
+            <!-- 用户表id -->
+            <if test="userActLog.userId!=null " >
+                user_id = #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- api名 -->
+            <if test="userActLog.apiName!=null  and userActLog.apiName!='' " >
+                api_name = #{userActLog.apiName,jdbcType=VARCHAR},
+            </if>
+            <!-- api路径 -->
+            <if test="userActLog.apiUrl!=null  and userActLog.apiUrl!='' " >
+                api_url = #{userActLog.apiUrl,jdbcType=VARCHAR},
+            </if>
+            <!-- 参数 -->
+            params = #{userActLog.params,jdbcType=VARCHAR},
+            <!-- 创建时间 -->
+            <if test="userActLog.createTime!=null " >
+                create_time = #{userActLog.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+        </set>
+        <where>
+           AND id = #{userActLog.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserActLogDAO.updateSelective -->
+    <!-- 根据主键修改不为空的数据 -->
+    <update id="updateSelective">
+        
+        UPDATE user_act_log
+        <set>
+            <!-- 用户表id -->
+            <if test="userActLog.userId!=null " >
+                user_id = #{userActLog.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- api名 -->
+            <if test="userActLog.apiName!=null  and userActLog.apiName!='' " >
+                api_name = #{userActLog.apiName,jdbcType=VARCHAR},
+            </if>
+            <!-- api路径 -->
+            <if test="userActLog.apiUrl!=null  and userActLog.apiUrl!='' " >
+                api_url = #{userActLog.apiUrl,jdbcType=VARCHAR},
+            </if>
+            <!-- 参数 -->
+            <if test="userActLog.params!=null  and userActLog.params!='' " >
+                params = #{userActLog.params,jdbcType=VARCHAR},
+            </if>
+            <!-- 创建时间 -->
+            <if test="userActLog.createTime!=null " >
+                create_time = #{userActLog.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+        </set>
+        <where>
+           AND id = #{userActLog.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserActLogDAO.delete -->
+    <!-- 根据主键删除数据 -->
+    <delete id="delete">
+        
+        DELETE  FROM user_act_log
+        <where>
+           AND id = #{userActLog.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserActLogDAO.findById -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findById" resultMap="userActLogDO">
+        
+        SELECT 
+            <include refid="userActLog_Columns"/>
+          FROM user_act_log userActLog
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for UserActLogDAO.deleteById -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteById">
+        
+        DELETE  FROM user_act_log
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserActLogDAO.findByIdIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByIdIn" resultMap="userActLogDO">
+        
+        SELECT 
+            <include refid="userActLog_Columns"/>
+          FROM user_act_log userActLog
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for UserActLogDAO.deleteByIdIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByIdIn">
+        
+        DELETE  FROM user_act_log
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+</mapper>

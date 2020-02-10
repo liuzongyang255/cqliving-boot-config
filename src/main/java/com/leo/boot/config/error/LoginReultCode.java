@@ -1,0 +1,53 @@
+package com.leo.boot.config.error;
+
+import cqliving.framework.cloud.core.result.ResponseMsgAble;
+
+/********************************************************/
+/*
+FileName            :    LoginReultCode.java                            
+Project Name        :	 leo-boot-config                  
+Author              :	 LiuZongYang                      
+Mail                :    595324626@QQ.COM                 
+Date                :    2020年2月10日 下午3:58:11                  
+Version             :    1.0                              
+Modification History:                                     
+Date              Author        Version        Description
+----------------------------------------------------------
+2020年2月10日    LiuZongYang     1.0            新建
+Brief Description: TODO        						  
+caution: something to be cautioned*/
+/********************************************************/
+
+/**
+ * 10开头的为登录返回码
+ * @author leo
+ */
+public enum LoginReultCode implements ResponseMsgAble{
+
+    USER_NOT_EXISTS(101, "用户不存在"),
+    USER_PASS_ERROR(102, "密码错误"),
+    ;
+    
+    private int code;
+    
+    private String msg;
+    
+    LoginReultCode(int code, String msg) {
+        this.code = code;
+        this.msg = msg;
+    }
+    
+    @Override
+    public int getCode() {
+        return code;
+    }
+
+    @Override
+    public String getMessage() {
+        return msg;
+    }
+
+}
+
+ 
+ 

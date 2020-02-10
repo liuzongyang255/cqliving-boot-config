@@ -1,0 +1,482 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    user                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.UserDAO">
+    <!-- ============================================= -->
+    <!-- RESULT MAPS                                   -->
+    <!-- ============================================= -->
+    <!-- result maps for database table user -->
+    <resultMap id="userDO" type="com.leo.boot.config.dal.entity.UserDO">
+        <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="userName" column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="userPass" column="user_pass" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="userSalt" column="user_salt" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="realName" column="real_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="email" column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+    </resultMap>
+
+
+    <sql id="user_Columns">
+        user.id,
+        user.user_name,
+        user.user_pass,
+        user.user_salt,
+        user.real_name,
+        user.email
+    </sql>
+
+    <sql id="Base_Column_List">
+        id,
+        user_name,
+        user_pass,
+        user_salt,
+        real_name,
+        email
+    </sql>
+
+    <!-- ============================================= -->
+    <!-- mapped statements for UserDAO -->
+    <!-- ============================================= -->
+
+    <!-- mapped statement for UserDAO.insert -->
+    <!-- 插入数据 -->
+    <insert id="insert">
+        
+        INSERT INTO user
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户名 -->
+            user_name ,
+            <!-- 密码 -->
+            user_pass ,
+            <!-- 盐值 -->
+            user_salt ,
+            <!-- 真实姓名 -->
+            real_name ,
+            <!-- 邮件地址 -->
+            email ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 用户名 -->
+            #{user.userName,jdbcType=VARCHAR},
+            <!-- 密码 -->
+            #{user.userPass,jdbcType=VARCHAR},
+            <!-- 盐值 -->
+            #{user.userSalt,jdbcType=VARCHAR},
+            <!-- 真实姓名 -->
+            #{user.realName,jdbcType=VARCHAR},
+            <!-- 邮件地址 -->
+            #{user.email,jdbcType=VARCHAR},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for UserDAO.insertSelective -->
+    <!-- 插入不为空的数据 -->
+    <insert id="insertSelective">
+        
+        INSERT INTO user
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户名 -->
+            <if test="user.userName!=null  and user.userName!='' " >
+                user_name ,
+            </if>
+            <!-- 密码 -->
+            <if test="user.userPass!=null  and user.userPass!='' " >
+                user_pass ,
+            </if>
+            <!-- 盐值 -->
+            <if test="user.userSalt!=null  and user.userSalt!='' " >
+                user_salt ,
+            </if>
+            <!-- 真实姓名 -->
+            <if test="user.realName!=null  and user.realName!='' " >
+                real_name ,
+            </if>
+            <!-- 邮件地址 -->
+            <if test="user.email!=null  and user.email!='' " >
+                email ,
+            </if>
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 用户名 -->
+            <if test="user.userName!=null  and user.userName!='' " >
+                #{user.userName,jdbcType=VARCHAR},
+            </if>
+            <!-- 密码 -->
+            <if test="user.userPass!=null  and user.userPass!='' " >
+                #{user.userPass,jdbcType=VARCHAR},
+            </if>
+            <!-- 盐值 -->
+            <if test="user.userSalt!=null  and user.userSalt!='' " >
+                #{user.userSalt,jdbcType=VARCHAR},
+            </if>
+            <!-- 真实姓名 -->
+            <if test="user.realName!=null  and user.realName!='' " >
+                #{user.realName,jdbcType=VARCHAR},
+            </if>
+            <!-- 邮件地址 -->
+            <if test="user.email!=null  and user.email!='' " >
+                #{user.email,jdbcType=VARCHAR},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for UserDAO.batchInsert -->
+    <!-- 批量插入数据 -->
+    <insert id="batchInsert">
+        
+        INSERT INTO user
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户名 -->
+            user_name ,
+            <!-- 密码 -->
+            user_pass ,
+            <!-- 盐值 -->
+            user_salt ,
+            <!-- 真实姓名 -->
+            real_name ,
+            <!-- 邮件地址 -->
+            email ,
+        </trim>
+        )VALUES
+        <foreach collection="list" item="user"  separator="," > 
+            (
+            <trim suffixOverrides=",">
+                <!-- 用户名 -->
+                #{user.userName},
+                <!-- 密码 -->
+                #{user.userPass},
+                <!-- 盐值 -->
+                #{user.userSalt},
+                <!-- 真实姓名 -->
+                #{user.realName},
+                <!-- 邮件地址 -->
+                #{user.email},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <!-- mapped statement for UserDAO.query -->
+    <!-- 根据输入条件分页查询数据 -->
+    <select id="query" resultMap="userDO">
+        
+        SELECT 
+            <include refid="user_Columns"/>
+          FROM user user
+        <where>
+            <!-- 主键 -->
+            <if test="user.id !=null " >
+                AND id = #{user.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 用户名 -->
+            <if test="user.userName !=null  and user.userName!='' " >
+                AND user_name = #{user.userName,jdbcType=VARCHAR} 
+            </if>
+            <!-- 密码 -->
+            <if test="user.userPass !=null  and user.userPass!='' " >
+                AND user_pass = #{user.userPass,jdbcType=VARCHAR} 
+            </if>
+            <!-- 盐值 -->
+            <if test="user.userSalt !=null  and user.userSalt!='' " >
+                AND user_salt = #{user.userSalt,jdbcType=VARCHAR} 
+            </if>
+            <!-- 真实姓名 -->
+            <if test="user.realName !=null  and user.realName!='' " >
+                AND real_name = #{user.realName,jdbcType=VARCHAR} 
+            </if>
+            <!-- 邮件地址 -->
+            <if test="user.email !=null  and user.email!='' " >
+                AND email = #{user.email,jdbcType=VARCHAR} 
+            </if>
+        </where>
+         ORDER BY id DESC 
+         LIMIT #{start},#{pageSize}
+    </select>
+    
+    <!-- mapped statement for UserDAO.queryCount -->
+    <!-- 根据输入条件查询数据总数 -->
+    <select id="queryCount" resultType="long">
+        
+        SELECT COUNT(id) 
+          FROM user user
+        <where>
+            <!-- 主键 -->
+            <if test="user.id !=null " >
+                AND id = #{user.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 用户名 -->
+            <if test="user.userName !=null  and user.userName!='' " >
+                AND user_name = #{user.userName,jdbcType=VARCHAR} 
+            </if>
+            <!-- 密码 -->
+            <if test="user.userPass !=null  and user.userPass!='' " >
+                AND user_pass = #{user.userPass,jdbcType=VARCHAR} 
+            </if>
+            <!-- 盐值 -->
+            <if test="user.userSalt !=null  and user.userSalt!='' " >
+                AND user_salt = #{user.userSalt,jdbcType=VARCHAR} 
+            </if>
+            <!-- 真实姓名 -->
+            <if test="user.realName !=null  and user.realName!='' " >
+                AND real_name = #{user.realName,jdbcType=VARCHAR} 
+            </if>
+            <!-- 邮件地址 -->
+            <if test="user.email !=null  and user.email!='' " >
+                AND email = #{user.email,jdbcType=VARCHAR} 
+            </if>
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for UserDAO.update -->
+    <!-- 根据主键修改数据 -->
+    <update id="update">
+        
+        UPDATE user
+        <set>
+            <!-- 用户名 -->
+            user_name = #{user.userName,jdbcType=VARCHAR},
+            <!-- 密码 -->
+            user_pass = #{user.userPass,jdbcType=VARCHAR},
+            <!-- 盐值 -->
+            user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            <!-- 真实姓名 -->
+            real_name = #{user.realName,jdbcType=VARCHAR},
+            <!-- 邮件地址 -->
+            email = #{user.email,jdbcType=VARCHAR},
+        </set>
+        <where>
+            <!-- 主键 -->
+           AND id = #{user.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserDAO.updateSelective -->
+    <!-- 根据主键修改不为空的数据 -->
+    <update id="updateSelective">
+        
+        UPDATE user
+        <set>
+            <!-- 用户名 -->
+            <if test="user.userName!=null  and user.userName!='' " >
+                user_name = #{user.userName,jdbcType=VARCHAR},
+            </if>
+            <!-- 密码 -->
+            <if test="user.userPass!=null  and user.userPass!='' " >
+                user_pass = #{user.userPass,jdbcType=VARCHAR},
+            </if>
+            <!-- 盐值 -->
+            <if test="user.userSalt!=null  and user.userSalt!='' " >
+                user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            </if>
+            <!-- 真实姓名 -->
+            <if test="user.realName!=null  and user.realName!='' " >
+                real_name = #{user.realName,jdbcType=VARCHAR},
+            </if>
+            <!-- 邮件地址 -->
+            <if test="user.email!=null  and user.email!='' " >
+                email = #{user.email,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <!-- 主键 -->
+           AND id = #{user.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserDAO.delete -->
+    <!-- 根据主键删除数据 -->
+    <delete id="delete">
+        
+        DELETE  FROM user
+        <where>
+            <!-- 主键 -->
+           AND id = #{user.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserDAO.findByUserName -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findByUserName" resultMap="userDO">
+        
+        SELECT 
+            <include refid="user_Columns"/>
+          FROM user user
+        <where>
+           AND user_name = #{userName,jdbcType=VARCHAR}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for UserDAO.deleteByUserName -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteByUserName">
+        
+        DELETE  FROM user
+        <where>
+            <!-- 用户名 -->
+           AND user_name = #{userName,jdbcType=VARCHAR}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserDAO.updateByUserName -->
+    <!-- 修改数据 -->
+    <update id="updateByUserName">
+        
+        UPDATE user
+        <set>
+            <!-- 密码 -->
+            user_pass = #{user.userPass,jdbcType=VARCHAR},
+            <!-- 盐值 -->
+            user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            <!-- 真实姓名 -->
+            real_name = #{user.realName,jdbcType=VARCHAR},
+            <!-- 邮件地址 -->
+            email = #{user.email,jdbcType=VARCHAR},
+        </set>
+        <where>
+            <!-- 用户名 -->
+           AND user_name = #{user.userName,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserDAO.updateSelectiveByUserName -->
+    <!-- 值修改不为空的数据 -->
+    <update id="updateSelectiveByUserName">
+        
+        UPDATE user
+        <set>
+            <!-- 密码 -->
+            <if test="user.userPass!=null  and user.userPass!='' " >
+                user_pass = #{user.userPass,jdbcType=VARCHAR},
+            </if>
+            <!-- 盐值 -->
+            <if test="user.userSalt!=null  and user.userSalt!='' " >
+                user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            </if>
+            <!-- 真实姓名 -->
+            <if test="user.realName!=null  and user.realName!='' " >
+                real_name = #{user.realName,jdbcType=VARCHAR},
+            </if>
+            <!-- 邮件地址 -->
+            <if test="user.email!=null  and user.email!='' " >
+                email = #{user.email,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <!-- 用户名 -->
+           AND user_name = #{user.userName,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserDAO.findByUserNameIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByUserNameIn" resultMap="userDO">
+        
+        SELECT 
+            <include refid="user_Columns"/>
+          FROM user user
+        <where>
+            <!-- 用户名 -->
+            user_name IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for UserDAO.deleteByUserNameIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByUserNameIn">
+        
+        DELETE  FROM user
+        <where>
+            <!-- 用户名 -->
+            user_name IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserDAO.findById -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findById" resultMap="userDO">
+        
+        SELECT 
+            <include refid="user_Columns"/>
+          FROM user user
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for UserDAO.deleteById -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteById">
+        
+        DELETE  FROM user
+        <where>
+            <!-- 主键 -->
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserDAO.findByIdIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByIdIn" resultMap="userDO">
+        
+        SELECT 
+            <include refid="user_Columns"/>
+          FROM user user
+        <where>
+            <!-- 主键 -->
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for UserDAO.deleteByIdIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByIdIn">
+        
+        DELETE  FROM user
+        <where>
+            <!-- 主键 -->
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+</mapper>
