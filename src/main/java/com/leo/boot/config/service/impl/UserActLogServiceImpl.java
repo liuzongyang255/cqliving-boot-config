@@ -5,11 +5,11 @@
 package com.leo.boot.config.service.impl;
 
 import java.util.List;
-import org.cqliving.framework.cloud.mybatis.mvc.AbstractService;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import com.github.pagehelper.Page;
+import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.UserActLogDTO;
 import com.leo.boot.config.dal.entity.UserActLogDO;
 import com.leo.boot.config.dal.mapper.UserActLogDAO;
@@ -21,7 +21,7 @@ import com.leo.boot.config.service.UserActLogService;
  * <p> user_act_log service实现层</p>
  */
 @Service
-public class UserActLogServiceImpl extends AbstractService implements UserActLogService{
+public class UserActLogServiceImpl extends CommonService implements UserActLogService{
     
     @Autowired
     private UserActLogDAO userActLogDAO;

@@ -17,7 +17,7 @@ Modification History:
 Date              Author        Version        Description
 ----------------------------------------------------------
 2020年2月10日    LiuZongYang     1.0            新建
-Brief Description: TODO        						  
+Brief Description: UserActLogQuery        						  
 caution: something to be cautioned*/
 /********************************************************/
 

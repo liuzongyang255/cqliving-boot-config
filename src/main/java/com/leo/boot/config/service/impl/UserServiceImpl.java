@@ -6,9 +6,9 @@ package com.leo.boot.config.service.impl;
 
 import java.util.List;
 import org.apache.commons.codec.digest.DigestUtils;
-import org.cqliving.framework.cloud.mybatis.mvc.AbstractService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.UserDto;
 import com.leo.boot.config.dal.entity.UserDO;
 import com.leo.boot.config.dal.mapper.UserDAO;
@@ -20,7 +20,7 @@ import cqliving.framework.cloud.core.error.BizException;
  * <p> user service实现层</p>
  */
 @Service
-public class UserServiceImpl extends AbstractService implements UserService{
+public class UserServiceImpl extends CommonService implements UserService{
     
     @Autowired
     private UserDAO userDAO;
@@ -226,7 +226,11 @@ public class UserServiceImpl extends AbstractService implements UserService{
     
     @Override
     public void logout() {
-        request.getSession().invalidate();
+        try {
+            request.getSession().invalidate();
+        } catch (Exception e) {
+            logger.warn("登出出错:{}", e);
+        }
     }
 
 }

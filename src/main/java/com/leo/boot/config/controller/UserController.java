@@ -2,6 +2,7 @@ package com.leo.boot.config.controller;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import com.leo.boot.config.common.CommonController;
 
 /********************************************************/
 /*
@@ -15,13 +16,13 @@ Modification History:
 Date              Author        Version        Description
 ----------------------------------------------------------
 2020年2月10日    LiuZongYang     1.0            新建
-Brief Description: TODO        						  
+Brief Description: UserController        						  
 caution: something to be cautioned*/
 /********************************************************/
 
 @RestController
 @RequestMapping("user")
-public class UserController {
+public class UserController extends CommonController{
     
     
 }
