@@ -1,0 +1,303 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    user_project_collect                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.UserProjectCollectDAO">
+    <!-- ============================================= -->
+    <!-- RESULT MAPS                                   -->
+    <!-- ============================================= -->
+    <!-- result maps for database table user_project_collect -->
+    <resultMap id="userProjectCollectDO" type="com.leo.boot.config.dal.entity.UserProjectCollectDO">
+        <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="userId" column="user_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="projectId" column="project_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+    </resultMap>
+
+
+    <sql id="userProjectCollect_Columns">
+        userProjectCollect.id,
+        userProjectCollect.user_id,
+        userProjectCollect.project_id
+    </sql>
+
+    <sql id="Base_Column_List">
+        id,
+        user_id,
+        project_id
+    </sql>
+
+    <!-- ============================================= -->
+    <!-- mapped statements for UserProjectCollectDAO -->
+    <!-- ============================================= -->
+
+    <!-- mapped statement for UserProjectCollectDAO.insert -->
+    <!-- 插入数据 -->
+    <insert id="insert">
+        
+        INSERT INTO user_project_collect
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户id -->
+            user_id ,
+            <!-- 项目id -->
+            project_id ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 用户id -->
+            #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            <!-- 项目id -->
+            #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for UserProjectCollectDAO.insertSelective -->
+    <!-- 插入不为空的数据 -->
+    <insert id="insertSelective">
+        
+        INSERT INTO user_project_collect
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户id -->
+            <if test="userProjectCollect.userId!=null " >
+                user_id ,
+            </if>
+            <!-- 项目id -->
+            <if test="userProjectCollect.projectId!=null " >
+                project_id ,
+            </if>
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 用户id -->
+            <if test="userProjectCollect.userId!=null " >
+                #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- 项目id -->
+            <if test="userProjectCollect.projectId!=null " >
+                #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for UserProjectCollectDAO.batchInsert -->
+    <!-- 批量插入数据 -->
+    <insert id="batchInsert">
+        
+        INSERT INTO user_project_collect
+        (
+        <trim suffixOverrides=",">
+            <!-- 用户id -->
+            user_id ,
+            <!-- 项目id -->
+            project_id ,
+        </trim>
+        )VALUES
+        <foreach collection="list" item="userProjectCollect"  separator="," > 
+            (
+            <trim suffixOverrides=",">
+                <!-- 用户id -->
+                #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+                <!-- 项目id -->
+                #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <!-- mapped statement for UserProjectCollectDAO.query -->
+    <!-- 根据输入条件分页查询数据 -->
+    <select id="query" resultMap="userProjectCollectDO">
+        
+        SELECT 
+            <include refid="userProjectCollect_Columns"/>
+          FROM user_project_collect userProjectCollect
+        <where>
+            <if test="userProjectCollect.id !=null " >
+                AND id = #{userProjectCollect.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 用户id -->
+            <if test="userProjectCollect.userId !=null " >
+                AND user_id = #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 项目id -->
+            <if test="userProjectCollect.projectId !=null " >
+                AND project_id = #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for UserProjectCollectDAO.update -->
+    <!-- 根据主键修改数据 -->
+    <update id="update">
+        
+        UPDATE user_project_collect
+        <set>
+            <!-- 用户id -->
+            user_id = #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            <!-- 项目id -->
+            project_id = #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+        </set>
+        <where>
+           AND id = #{userProjectCollect.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserProjectCollectDAO.updateSelective -->
+    <!-- 根据主键修改不为空的数据 -->
+    <update id="updateSelective">
+        
+        UPDATE user_project_collect
+        <set>
+            <!-- 用户id -->
+            <if test="userProjectCollect.userId!=null " >
+                user_id = #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- 项目id -->
+            <if test="userProjectCollect.projectId!=null " >
+                project_id = #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+        </set>
+        <where>
+           AND id = #{userProjectCollect.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserProjectCollectDAO.delete -->
+    <!-- 根据主键删除数据 -->
+    <delete id="delete">
+        
+        DELETE  FROM user_project_collect
+        <where>
+           AND id = #{userProjectCollect.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserProjectCollectDAO.findById -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findById" resultMap="userProjectCollectDO">
+        
+        SELECT 
+            <include refid="userProjectCollect_Columns"/>
+          FROM user_project_collect userProjectCollect
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for UserProjectCollectDAO.deleteById -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteById">
+        
+        DELETE  FROM user_project_collect
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserProjectCollectDAO.findByIdIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByIdIn" resultMap="userProjectCollectDO">
+        
+        SELECT 
+            <include refid="userProjectCollect_Columns"/>
+          FROM user_project_collect userProjectCollect
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for UserProjectCollectDAO.deleteByIdIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByIdIn">
+        
+        DELETE  FROM user_project_collect
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserProjectCollectDAO.findByUserIdAndProjectId -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findByUserIdAndProjectId" resultMap="userProjectCollectDO">
+        
+        SELECT 
+            <include refid="userProjectCollect_Columns"/>
+          FROM user_project_collect userProjectCollect
+        <where>
+           AND user_id = #{userId,jdbcType=BIGINT,javaType=java.lang.Long}
+           AND project_id = #{projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for UserProjectCollectDAO.deleteByUserIdAndProjectId -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteByUserIdAndProjectId">
+        
+        DELETE  FROM user_project_collect
+        <where>
+            <!-- 用户id -->
+           AND user_id = #{userId,jdbcType=BIGINT,javaType=java.lang.Long}
+            <!-- 项目id -->
+           AND project_id = #{projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for UserProjectCollectDAO.updateByUserIdAndProjectId -->
+    <!-- 修改数据 -->
+    <update id="updateByUserIdAndProjectId">
+        
+        UPDATE user_project_collect
+        <set>
+        </set>
+        <where>
+            <!-- 用户id -->
+           AND user_id = #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long}
+            <!-- 项目id -->
+           AND project_id = #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for UserProjectCollectDAO.updateSelectiveByUserIdAndProjectId -->
+    <!-- 值修改不为空的数据 -->
+    <update id="updateSelectiveByUserIdAndProjectId">
+        
+        UPDATE user_project_collect
+        <set>
+        </set>
+        <where>
+            <!-- 用户id -->
+           AND user_id = #{userProjectCollect.userId,jdbcType=BIGINT,javaType=java.lang.Long}
+            <!-- 项目id -->
+           AND project_id = #{userProjectCollect.projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+</mapper>

@@ -2,7 +2,7 @@
  * http://www.leo-config.com Inc
  * Copyright (c) 2020 All Rights Reserved.
  */
-package com.leo.boot.config.dal.mapper;
+package com.leo.boot.config.dal.mapper.ex;
 
 import java.util.List;
 import org.apache.ibatis.annotations.Param;

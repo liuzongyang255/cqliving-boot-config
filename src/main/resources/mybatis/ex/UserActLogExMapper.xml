@@ -3,7 +3,7 @@
 <!-- ==========================================================  -->
 <!--    user_act_log                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.UserActLogExDAO">
+<mapper namespace="com.leo.boot.config.dal.mapper.ex.UserActLogExDAO">
 
 
     <sql id="userActLog_Columns">
@@ -20,7 +20,7 @@
             <include refid="userActLog_Columns"/>
             , u.real_name
           FROM user_act_log userActLog
-          JOIN `user` u
+          JOIN `user` u on u.id = userActLog.user_id
         <where>
             <if test="userActLog.realName !=null and userActLog.realName!=''" >
                 AND u.real_name like #{userActLog.realName}

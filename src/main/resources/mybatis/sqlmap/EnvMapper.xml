@@ -1,0 +1,272 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    env                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.EnvDAO">
+    <!-- ============================================= -->
+    <!-- RESULT MAPS                                   -->
+    <!-- ============================================= -->
+    <!-- result maps for database table env -->
+    <resultMap id="envDO" type="com.leo.boot.config.dal.entity.EnvDO">
+        <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="envName" column="env_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="content" column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="projectId" column="project_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+    </resultMap>
+
+
+    <sql id="env_Columns">
+        env.id,
+        env.env_name,
+        env.content,
+        env.project_id
+    </sql>
+
+    <sql id="Base_Column_List">
+        id,
+        env_name,
+        content,
+        project_id
+    </sql>
+
+    <!-- ============================================= -->
+    <!-- mapped statements for EnvDAO -->
+    <!-- ============================================= -->
+
+    <!-- mapped statement for EnvDAO.insert -->
+    <!-- 插入数据 -->
+    <insert id="insert">
+        
+        INSERT INTO env
+        (
+        <trim suffixOverrides=",">
+            <!-- 环境名 -->
+            env_name ,
+            <!-- 所有配置 -->
+            content ,
+            <!-- 项目id -->
+            project_id ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 环境名 -->
+            #{env.envName,jdbcType=VARCHAR},
+            <!-- 所有配置 -->
+            #{env.content,jdbcType=VARCHAR},
+            <!-- 项目id -->
+            #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for EnvDAO.insertSelective -->
+    <!-- 插入不为空的数据 -->
+    <insert id="insertSelective">
+        
+        INSERT INTO env
+        (
+        <trim suffixOverrides=",">
+            <!-- 环境名 -->
+            <if test="env.envName!=null  and env.envName!='' " >
+                env_name ,
+            </if>
+            <!-- 所有配置 -->
+            <if test="env.content!=null  and env.content!='' " >
+                content ,
+            </if>
+            <!-- 项目id -->
+            <if test="env.projectId!=null " >
+                project_id ,
+            </if>
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 环境名 -->
+            <if test="env.envName!=null  and env.envName!='' " >
+                #{env.envName,jdbcType=VARCHAR},
+            </if>
+            <!-- 所有配置 -->
+            <if test="env.content!=null  and env.content!='' " >
+                #{env.content,jdbcType=VARCHAR},
+            </if>
+            <!-- 项目id -->
+            <if test="env.projectId!=null " >
+                #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for EnvDAO.batchInsert -->
+    <!-- 批量插入数据 -->
+    <insert id="batchInsert">
+        
+        INSERT INTO env
+        (
+        <trim suffixOverrides=",">
+            <!-- 环境名 -->
+            env_name ,
+            <!-- 所有配置 -->
+            content ,
+            <!-- 项目id -->
+            project_id ,
+        </trim>
+        )VALUES
+        <foreach collection="list" item="env"  separator="," > 
+            (
+            <trim suffixOverrides=",">
+                <!-- 环境名 -->
+                #{env.envName},
+                <!-- 所有配置 -->
+                #{env.content},
+                <!-- 项目id -->
+                #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <!-- mapped statement for EnvDAO.query -->
+    <!-- 根据输入条件分页查询数据 -->
+    <select id="query" resultMap="envDO">
+        
+        SELECT 
+            <include refid="env_Columns"/>
+          FROM env env
+        <where>
+            <if test="env.id !=null " >
+                AND id = #{env.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 环境名 -->
+            <if test="env.envName !=null  and env.envName!='' " >
+                AND env_name LIKE CONCAT('%', #{env.envName,jdbcType=VARCHAR},'%') 
+            </if>
+            <!-- 所有配置 -->
+            <if test="env.content !=null  and env.content!='' " >
+                AND content = #{env.content,jdbcType=VARCHAR} 
+            </if>
+            <!-- 项目id -->
+            <if test="env.projectId !=null " >
+                AND project_id = #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for EnvDAO.update -->
+    <!-- 根据主键修改数据 -->
+    <update id="update">
+        
+        UPDATE env
+        <set>
+            <!-- 环境名 -->
+            env_name = #{env.envName,jdbcType=VARCHAR},
+            <!-- 所有配置 -->
+            content = #{env.content,jdbcType=VARCHAR},
+            <!-- 项目id -->
+            project_id = #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+        </set>
+        <where>
+           AND id = #{env.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvDAO.updateSelective -->
+    <!-- 根据主键修改不为空的数据 -->
+    <update id="updateSelective">
+        
+        UPDATE env
+        <set>
+            <!-- 环境名 -->
+            <if test="env.envName!=null  and env.envName!='' " >
+                env_name = #{env.envName,jdbcType=VARCHAR},
+            </if>
+            <!-- 所有配置 -->
+            <if test="env.content!=null  and env.content!='' " >
+                content = #{env.content,jdbcType=VARCHAR},
+            </if>
+            <!-- 项目id -->
+            <if test="env.projectId!=null " >
+                project_id = #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+        </set>
+        <where>
+           AND id = #{env.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvDAO.delete -->
+    <!-- 根据主键删除数据 -->
+    <delete id="delete">
+        
+        DELETE  FROM env
+        <where>
+           AND id = #{env.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvDAO.findById -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findById" resultMap="envDO">
+        
+        SELECT 
+            <include refid="env_Columns"/>
+          FROM env env
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for EnvDAO.deleteById -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteById">
+        
+        DELETE  FROM env
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvDAO.findByIdIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByIdIn" resultMap="envDO">
+        
+        SELECT 
+            <include refid="env_Columns"/>
+          FROM env env
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for EnvDAO.deleteByIdIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByIdIn">
+        
+        DELETE  FROM env
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+</mapper>

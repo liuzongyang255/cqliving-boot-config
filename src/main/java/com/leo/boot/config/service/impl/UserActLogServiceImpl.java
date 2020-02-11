@@ -8,12 +8,11 @@ import java.util.List;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.github.pagehelper.Page;
 import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.UserActLogDTO;
 import com.leo.boot.config.dal.entity.UserActLogDO;
 import com.leo.boot.config.dal.mapper.UserActLogDAO;
-import com.leo.boot.config.dal.mapper.UserActLogExDAO;
+import com.leo.boot.config.dal.mapper.ex.UserActLogExDAO;
 import com.leo.boot.config.dal.query.UserActLogQuery;
 import com.leo.boot.config.service.UserActLogService;
 
@@ -141,9 +140,7 @@ public class UserActLogServiceImpl extends CommonService implements UserActLogSe
     
     @Override
     public PaginationResponse<UserActLogDTO> page(UserActLogQuery dto) {
-        Page<UserActLogDTO> page = getPage(dto);
-        List<UserActLogDTO> list = userActLogExDAO.query(dto);
-        return new PaginationResponse<>(list, page);
+        return page(getPage(dto), userActLogExDAO.query(dto));
     }
 
 }

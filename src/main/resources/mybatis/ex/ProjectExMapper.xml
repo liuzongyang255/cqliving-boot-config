@@ -1,0 +1,30 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    project                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.ex.ProjectExDAO">
+
+    <sql id="project_Columns">
+        project.id,
+        project.name,
+        project.user_id,
+        project.remark
+    </sql>
+    
+    <select id="query" resultType="com.leo.boot.config.dal.dto.ProjectDTO">
+        SELECT
+            a.id, a.`name`,a.user_id, a.remark, b.real_name,
+            ( CASE WHEN c.id IS NULL THEN 0 WHEN c.id = '' THEN 0 ELSE 1 END ) collect 
+        FROM project a
+        JOIN `user` b ON a.user_id = b.id
+        LEFT JOIN user_project_collect c ON b.id = c.user_id AND a.id = c.project_id
+        <where>
+            <if test="query.name !=null  and query.name !='' " >
+                AND name LIKE CONCAT('%', #{query.name,jdbcType=VARCHAR},'%') 
+            </if>
+        </where>
+        
+    </select>
+
+</mapper>

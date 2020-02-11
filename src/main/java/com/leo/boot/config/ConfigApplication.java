@@ -1,12 +1,10 @@
 package com.leo.boot.config;
 
-import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ResponseBody;
 
 /********************************************************/
 /*
@@ -32,13 +30,7 @@ public class ConfigApplication {
         SpringApplication.run(ConfigApplication.class, args);
     }
     
-    @GetMapping("")
-    @ResponseBody
-    public BaseResponse console() {   
-        return BaseResponse.success();
-    }
-    
-    @GetMapping("index")
+    @GetMapping({"","index"})
     public String index() {   
         return "index";
     }

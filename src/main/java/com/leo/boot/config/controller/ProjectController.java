@@ -1,0 +1,91 @@
+package com.leo.boot.config.controller;
+
+import javax.validation.constraints.NotNull;
+import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
+import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import com.leo.boot.config.aspect.UserActLog;
+import com.leo.boot.config.common.CommonController;
+import com.leo.boot.config.dal.dto.EnvDTO;
+import com.leo.boot.config.dal.dto.ProjectDTO;
+import com.leo.boot.config.dal.query.EnvQuery;
+import com.leo.boot.config.dal.query.ProjectQuery;
+import com.leo.boot.config.service.EnvService;
+import com.leo.boot.config.service.ProjectService;
+
+/********************************************************/
+/*
+FileName            :    ProjectController.java                            
+Project Name        :	 leo-boot-config                  
+Author              :	 LiuZongYang                      
+Mail                :    595324626@QQ.COM                 
+Date                :    2020年2月11日 上午11:13:53                  
+Version             :    1.0                              
+Modification History:                                     
+Date              Author        Version        Description
+----------------------------------------------------------
+2020年2月11日    LiuZongYang     1.0            新建
+Brief Description: TODO        						  
+caution: something to be cautioned*/
+/********************************************************/
+
+@Controller
+@RequestMapping("project")
+@Validated
+public class ProjectController extends CommonController{
+    
+    @Autowired
+    private ProjectService projectService;
+    
+    @Autowired
+    private EnvService envService;
+
+    @GetMapping("")
+    public String index() {
+        return "project/list";
+    }
+    
+    @GetMapping("page")
+    @ResponseBody
+    public PaginationResponse<ProjectDTO> page(ProjectQuery query){
+        return projectService.page(query);
+    }
+    
+    @PostMapping("save")
+    @ResponseBody
+    @UserActLog(apiName = "保存项目", apiUrl = "project/save")
+    public BaseResponse save(@Validated(ProjectDTO.Save.class) ProjectDTO dto) {
+        projectService.save(dto);
+        return success();
+    }
+    
+    @GetMapping("env")
+    public String env(Model model, @NotNull(message = "项目id不能为空")Long id) {
+        model.addAttribute("projectId", id);
+        return "project/env";
+    }
+    
+    @GetMapping("env/list")
+    @ResponseBody
+    public PaginationResponse<EnvDTO> envList(@Validated EnvQuery query) {
+        return envService.page(query);
+    }
+    
+    @GetMapping("env/save")
+    @ResponseBody
+    public BaseResponse envSave(@Validated(EnvDTO.Save.class) EnvDTO envDTO) {
+        envService.save(envDTO);
+        return success();
+    }
+    
+}
+
+ 
+ 

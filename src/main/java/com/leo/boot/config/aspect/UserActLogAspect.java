@@ -81,9 +81,10 @@ public class UserActLogAspect {
         }
         log.setParams(list.toString());
         UserDO user = (UserDO) request.getSession().getAttribute("user");
-        log.setUserId(user.getId());
-        
-        userActLogService.insert(log);
+        if (null != user && null != user.getId()) {
+            log.setUserId(user.getId());
+            userActLogService.insert(log);
+        }
     }
     
 }

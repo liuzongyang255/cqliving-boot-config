@@ -47,7 +47,7 @@ public class LoginController extends CommonController{
     
     @PostMapping("login")
     @ResponseBody
-    public BaseResponse login(@Validated UserDto user) {
+    public BaseResponse login(@Validated(UserDto.Login.class) UserDto user) {
         userService.login(user);
         return success();
     }
@@ -55,7 +55,7 @@ public class LoginController extends CommonController{
     @PostMapping("login/add")
     @ResponseBody
     @UserActLog(apiName = "新增用户", apiUrl = "login/add")
-    public BaseResponse add(@Validated UserDto user) {
+    public BaseResponse add(@Validated(UserDto.Regist.class) UserDto user) {
         UserDO userDO = Copier.copy(user, UserDO.class);
         userDO.setUserSalt(UUID.randomUUID().toString().replace("-", "").toLowerCase());
         userDO.setUserPass(DigestUtils.md5Hex(user.getUserPass().concat(userDO.getUserSalt())));
