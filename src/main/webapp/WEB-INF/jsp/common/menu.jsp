@@ -19,7 +19,7 @@
               </a>
               <dl class="layui-nav-child">
                   <dd data-name="mobile-pc"><a lay-href="/project">项目管理</a></dd>
-                  <dd data-name="mobile-pc"><a lay-href="/table">表生成</a></dd>
+                  <dd data-name="mobile-pc"><a lay-href="/common-env">公共配置</a></dd>
               </dl>
             </li>
              <li data-name="component" class="layui-nav-item">

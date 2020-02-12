@@ -8,7 +8,6 @@ import java.util.List;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import com.github.pagehelper.Page;
 import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.EnvDTO;
 import com.leo.boot.config.dal.entity.EnvDO;
@@ -138,9 +137,7 @@ public class EnvServiceImpl extends CommonService implements EnvService{
     
     @Override
     public PaginationResponse<EnvDTO> page(EnvQuery query) {
-        Page<EnvDTO> page = getPage(query);
-        List<EnvDO> list = envDAO.query(copy(query, EnvDO.class));
-        return page(page, copyList(list, EnvDTO.class));
+        return page(getPage(query), envDAO.query(copy(query, EnvDO.class)), EnvDTO.class);
     }
     
     @Override

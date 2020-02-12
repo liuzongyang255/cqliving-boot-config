@@ -12,6 +12,7 @@
   <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
   <link rel="stylesheet" href="/layuiadmin/style/custom.css" media="all">
   <style type="text/css">
+  
   	.layui-form-label {
 	    margin-top: 5px;
 	}
@@ -22,7 +23,7 @@
 		width: 20px;
 		height: 20px;
     }
-    .env-content-edit , .env-common-content{
+    .env-content-edit {
 	    overflow-x: auto;
 	    background: #e2e2f6;
 	    padding: 10px;
@@ -30,7 +31,6 @@
 	    font-size: 15px;
 	    font-weight: 600;
 	}
-	
     .env-content-edit>div{
         white-space:nowrap;
         text-overflow:ellipsis;
@@ -58,7 +58,7 @@
     <div class="layui-row layui-col-space15">
       <div class="layui-col-md4">
         <div class="layui-card">
-          <div class="layui-card-body env-card-body">
+          <div class="layui-card-body">
             <input id="projectId" type="hidden" value="${projectId}"/>
             <div class=" table-operate-btn" style="margin-bottom: 10px;">
               <button class="layui-btn layui-btn-xs" data-type="add">
@@ -73,9 +73,7 @@
             <script type="text/html" id="table-operate-bar">
               <a class="layui-btn layui-btn-xs" lay-event="update" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
               <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" title="删除"><i class="layui-icon layui-icon-delete"></i></a>
-              <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="publish" title="发布"><i class="layui-icon layui-icon-release"></i></a>
             </script>
-            
           </div>
         </div>
       </div>
@@ -84,22 +82,10 @@
           <div class="layui-card-header">配置信息<t style="color: red;">(仅支持properties格式)</t></div>
           <div class="layui-card-body">
             <input type="hidden" id="env-content-id" />
-            <div id="env-content-edit" class="env-content-edit" contenteditable="true" > 
+            <div id="env-content-edit" class="env-content-edit" contenteditable="true" >
             </div>
           </div>
         </div>
-        <div class="layui-card">
-          <div class="layui-card-header">公共配置</div>
-          
-          <div class="layui-card-body">
-            <div class=" table-operate-btn" style="margin-bottom: 10px;">
-              <button class="layui-btn layui-btn-xs" data-type="addCommon">
-                <i class="layui-icon layui-icon-add-1" style="color: #FFF;"></i>添加公共配置
-              </button>
-	        </div>
-            <div id="env-common-content" class="env-common-content">&nbsp;</div>
-        </div>
-        
       </div>
     </div>
   </div>
@@ -118,7 +104,7 @@
   
     table.render({
       elem: '#table-page'
-      ,url: '/project/env/list?projectId='+$('#projectId').val()
+      ,url: '/common-env/page'
       ,cols: [[
         {field:'envName', align:'center', title: '环境',templet:function(d){
         	return '<a  class="layui-btn layui-btn-xs layui-btn-radius" lay-event="envEdit">'+d.envName+'</a>';
@@ -140,7 +126,7 @@
       	if (content){
       		var envId = $('#env-content-id').val();
       		$.ajax({
-      			url:'/project/env/save',
+      			url:'/common-env/save',
       			type:'post',
       			data:{content:content,id:envId},
       			success:function(data){
@@ -148,7 +134,10 @@
       				active.reload();
       			}
       		})
+      		
       	}
+      	
+    	  
       },
       reload: function(){
     	  table.reload('table-page', {
@@ -159,16 +148,8 @@
             	envName: $('#envName').val(),
             }
           });
-      },
-      addCommon: function(){
-    	  console.log('11');
       }
     };
-    
-    $('.layui-btn').on('click', function(){
-      var type = $(this).data('type');
-      active[type] ? active[type].call(this) : '';
-    });
     
   //监听工具条
     table.on('tool(table-page)', function(obj){
@@ -181,6 +162,18 @@
     	  }
       }else if (obj.event === 'update'){
     	  layeropen(data);
+      }else if (obj.event === 'del'){
+    	  layer.confirm('真的删除么？', function(index){
+             $.ajax({
+           	  url:'/common-env/del?id='+data.id,
+           	  type:'post',
+           	  success:function(data){
+     			  layer.msg('删除成功');
+     			  obj.del();
+     	          layer.close(index);
+           	  }
+             })
+           });
       }
     });
   
@@ -193,6 +186,7 @@
     	if (content){
     		$(this).html(genEnvDiv(content))
     	}
+    	
     })
   
     function genEnvDiv(data){
@@ -210,6 +204,7 @@
     			obj[key] = value;
     		}
     	})
+    	
     	var result = '';
     	$.each(obj, function(key){
 			var clazz = '', value = obj[key];
@@ -229,13 +224,19 @@
     	})
     	return result;
     }
+  
     
+    $('.table-operate-btn .layui-btn').on('click', function(){
+      var type = $(this).data('type');
+      active[type] ? active[type].call(this) : '';
+    });
+
+
     function layeropen(data, id){
         layer.open({
             title:'项目参数确认',
             area: '50%',
             content:'<form class="layui-form" id="env-form">\
-                <input type="hidden" value="'+$('#projectId').val()+'" name="projectId">\
                 <input type="hidden" value="'+(data&&data.id?data.id:'')+'" name="id">\
                 <div class="layui-col-space10"><label class="layui-form-label">环境名：</label><div class="layui-input-block"><input type="text" value="'+(data&&data.envName?data.envName:'')+'" name="envName" required  lay-verify="required" placeholder="环境名" autocomplete="off" class="layui-input"></div></div>\
                 </form>',
@@ -243,7 +244,7 @@
             yes: function(index, layero){
                 var data = layero.find('#env-form').serialize();
                 layui.$.ajax({
-                    url:'/project/env/save',
+                    url:'/common-env/save',
                     type:'post',
                     data:data,
                     success:function(data){

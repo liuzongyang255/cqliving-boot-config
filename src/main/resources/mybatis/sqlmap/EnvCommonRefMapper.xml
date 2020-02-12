@@ -1,0 +1,239 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    env_common_ref                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.EnvCommonRefDAO">
+    <!-- ============================================= -->
+    <!-- RESULT MAPS                                   -->
+    <!-- ============================================= -->
+    <!-- result maps for database table env_common_ref -->
+    <resultMap id="envCommonRefDO" type="com.leo.boot.config.dal.entity.EnvCommonRefDO">
+        <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="commonId" column="common_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+        <result  property="envId" column="env_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
+    </resultMap>
+
+
+    <sql id="envCommonRef_Columns">
+        envCommonRef.id,
+        envCommonRef.common_id,
+        envCommonRef.env_id
+    </sql>
+
+    <sql id="Base_Column_List">
+        id,
+        common_id,
+        env_id
+    </sql>
+
+    <!-- ============================================= -->
+    <!-- mapped statements for EnvCommonRefDAO -->
+    <!-- ============================================= -->
+
+    <!-- mapped statement for EnvCommonRefDAO.insert -->
+    <!-- 插入数据 -->
+    <insert id="insert">
+        
+        INSERT INTO env_common_ref
+        (
+        <trim suffixOverrides=",">
+            <!-- 公共配置id -->
+            common_id ,
+            <!-- 环境id -->
+            env_id ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 公共配置id -->
+            #{envCommonRef.commonId,jdbcType=BIGINT,javaType=java.lang.Long},
+            <!-- 环境id -->
+            #{envCommonRef.envId,jdbcType=BIGINT,javaType=java.lang.Long},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for EnvCommonRefDAO.insertSelective -->
+    <!-- 插入不为空的数据 -->
+    <insert id="insertSelective">
+        
+        INSERT INTO env_common_ref
+        (
+        <trim suffixOverrides=",">
+            <!-- 公共配置id -->
+            common_id ,
+            <!-- 环境id -->
+            env_id ,
+        </trim>
+        )VALUES(
+        <trim suffixOverrides=",">
+            <!-- 公共配置id -->
+            #{envCommonRef.commonId,jdbcType=BIGINT,javaType=java.lang.Long},
+            <!-- 环境id -->
+            #{envCommonRef.envId,jdbcType=BIGINT,javaType=java.lang.Long},
+        </trim>
+        )
+    </insert>
+
+
+    <!-- mapped statement for EnvCommonRefDAO.batchInsert -->
+    <!-- 批量插入数据 -->
+    <insert id="batchInsert">
+        
+        INSERT INTO env_common_ref
+        (
+        <trim suffixOverrides=",">
+            <!-- 公共配置id -->
+            common_id ,
+            <!-- 环境id -->
+            env_id ,
+        </trim>
+        )VALUES
+        <foreach collection="list" item="envCommonRef"  separator="," > 
+            (
+            <trim suffixOverrides=",">
+                <!-- 公共配置id -->
+                #{envCommonRef.commonId,jdbcType=BIGINT,javaType=java.lang.Long},
+                <!-- 环境id -->
+                #{envCommonRef.envId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </trim>
+            )
+        </foreach>
+
+    </insert>
+
+
+    <!-- mapped statement for EnvCommonRefDAO.query -->
+    <!-- 根据输入条件分页查询数据 -->
+    <select id="query" resultMap="envCommonRefDO">
+        
+        SELECT 
+            <include refid="envCommonRef_Columns"/>
+          FROM env_common_ref envCommonRef
+        <where>
+            <if test="envCommonRef.id !=null " >
+                AND id = #{envCommonRef.id,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 公共配置id -->
+            <if test="envCommonRef.commonId !=null " >
+                AND common_id = #{envCommonRef.commonId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+            <!-- 环境id -->
+            <if test="envCommonRef.envId !=null " >
+                AND env_id = #{envCommonRef.envId,jdbcType=BIGINT,javaType=java.lang.Long} 
+            </if>
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for EnvCommonRefDAO.update -->
+    <!-- 根据主键修改数据 -->
+    <update id="update">
+        
+        UPDATE env_common_ref
+        <set>
+            <!-- 公共配置id -->
+            <if test="envCommonRef.commonId!=null " >
+                common_id = #{envCommonRef.commonId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- 环境id -->
+            <if test="envCommonRef.envId!=null " >
+                env_id = #{envCommonRef.envId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+        </set>
+        <where>
+           AND id = #{envCommonRef.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvCommonRefDAO.updateSelective -->
+    <!-- 根据主键修改不为空的数据 -->
+    <update id="updateSelective">
+        
+        UPDATE env_common_ref
+        <set>
+            <!-- 公共配置id -->
+            <if test="envCommonRef.commonId!=null " >
+                common_id = #{envCommonRef.commonId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- 环境id -->
+            <if test="envCommonRef.envId!=null " >
+                env_id = #{envCommonRef.envId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+        </set>
+        <where>
+           AND id = #{envCommonRef.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvCommonRefDAO.delete -->
+    <!-- 根据主键删除数据 -->
+    <delete id="delete">
+        
+        DELETE  FROM env_common_ref
+        <where>
+           AND id = #{envCommonRef.id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvCommonRefDAO.findById -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findById" resultMap="envCommonRefDO">
+        
+        SELECT 
+            <include refid="envCommonRef_Columns"/>
+          FROM env_common_ref envCommonRef
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for EnvCommonRefDAO.deleteById -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteById">
+        
+        DELETE  FROM env_common_ref
+        <where>
+           AND id = #{id,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvCommonRefDAO.findByIdIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByIdIn" resultMap="envCommonRefDO">
+        
+        SELECT 
+            <include refid="envCommonRef_Columns"/>
+          FROM env_common_ref envCommonRef
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for EnvCommonRefDAO.deleteByIdIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByIdIn">
+        
+        DELETE  FROM env_common_ref
+        <where>
+            id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+</mapper>
