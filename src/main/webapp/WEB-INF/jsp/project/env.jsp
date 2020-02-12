@@ -22,6 +22,33 @@
 		width: 20px;
 		height: 20px;
     }
+    .env-content-edit {
+	    overflow-x: auto;
+	    background: #e2e2f6;
+	    padding: 10px;
+	    font-family: Consolas;
+	    font-size: 15px;
+	    font-weight: 600;
+	}
+    .env-content-edit>div{
+        white-space:nowrap;
+        text-overflow:ellipsis;
+    }
+    .comment{
+    	color:#999
+    }
+    .key{
+    	color:red
+    }
+    .value{
+    	color:green
+    }
+    .bool{
+    	color:#ff05f8
+    }
+    .num{
+    	color:#01aaed
+    }
   </style>
 </head>
 <body>
@@ -33,29 +60,45 @@
           <div class="layui-card-body">
             <input id="projectId" type="hidden" value="${projectId}"/>
             <div class=" table-operate-btn" style="margin-bottom: 10px;">
-              <button class="layui-btn" data-type="add">添加</button>
-              <div class="layui-inline">
-                <input class="layui-input" id="envName" name="envName" placeholder="环境名"  autocomplete="off">
-              </div>
-              <button class="layui-btn" data-type="reload">搜索</button>
+              <button class="layui-btn layui-btn-xs" data-type="add">
+              	<i class="layui-icon layui-icon-add-1" style="color: #FFF;"></i>添加环境
+              </button>
+              <button class="layui-btn layui-btn-xs layui-btn-normal" data-type="save">
+                <i class="layui-icon layui-icon-ok-circle" style="color: #FFF;"></i>保存
+              </button>
+              
             </div>
             <table class="layui-hide" id="table-page" lay-filter="table-page"></table>
             <script type="text/html" id="table-operate-bar">
-              <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>
+              <a class="layui-btn layui-btn-xs" lay-event="update"><i class="layui-icon layui-icon-edit"></i></a>
+              <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del"><i class="layui-icon layui-icon-delete"></i></a>
             </script>
+            
           </div>
         </div>
       </div>
       <div class="layui-col-md8">
         <div class="layui-card">
-          <div class="layui-card-header">配置信息</div>
+          <div class="layui-card-header">配置信息<t style="color: red;">(仅支持properties格式)</t></div>
           <div class="layui-card-body">
-            <table class="layui-hide" id="table-page1" lay-filter="table-page1"></table>
-            <script type="text/html" id="table-operate-bar">
-              <a class="layui-btn layui-btn-xs" lay-event="update">修改</a>
-            </script>
+            <input type="hidden" id="env-content-id" />
+            <div id="env-content-edit" class="env-content-edit" contenteditable="true" >
+            </div>
           </div>
         </div>
+        <div class="layui-card">
+          <div class="layui-card-header">公共配置</div>
+          
+          <div class="layui-card-body">
+          <button class="layui-btn layui-btn-xs" data-type="add">
+           	  <i class="layui-icon layui-icon-add-1" style="color: #FFF;"></i>添加公共配置
+            </button>
+            <input type="hidden" id="env-content-id" />
+            <div id="env-content-edit" class="env-content-edit" contenteditable="true" >
+            </div>
+          </div>
+        </div>
+        
       </div>
     </div>
   </div>
@@ -76,9 +119,10 @@
       elem: '#table-page'
       ,url: '/project/env/list?projectId='+$('#projectId').val()
       ,cols: [[
-        {field:'envName', title: '环境',templet:function(d){
+        {field:'envName', align:'center', title: '环境',templet:function(d){
         	return '<a  class="layui-btn layui-btn-xs layui-btn-radius" lay-event="envEdit">'+d.envName+'</a>';
         }}
+        ,{title: '操作', align:'center', fixed: 'right', toolbar: '#table-operate-bar'}
       ]]
       ,page: true
     });
@@ -86,6 +130,27 @@
     var active = {
   	  add: function(){
   		layeropen();
+      },
+      save: function(){
+    	var content = '';
+      	$('.content-node').each(function(i,e){
+      		content += $(this).text() +'\r\n';
+      	})
+      	if (content){
+      		var envId = $('#env-content-id').val();
+      		$.ajax({
+      			url:'/project/env/save',
+      			type:'post',
+      			data:{content:content,id:envId},
+      			success:function(data){
+      				layer.msg('保存成功');
+      				active.reload();
+      			}
+      		})
+      		
+      	}
+      	
+    	  
       },
       reload: function(){
     	  table.reload('table-page', {
@@ -103,9 +168,65 @@
     table.on('tool(table-page)', function(obj){
       var data = obj.data;
       if(obj.event === 'envEdit'){
-    	  console.log(data);
+    	  $('#env-content-id').val(data.id);
+    	  $('#env-content-edit').html('').html(genEnvDiv(data.content))
+    	  
       }
     });
+  
+    $('#env-content-edit')
+    .on('keyup',function(){
+    	if($(this).find('div').text()==''){
+    		$(this).html('');
+    	}
+    })
+    .on('blur',function(){
+    	var content = '';
+    	$(this).find('div').each(function(i,e){
+    		content += $(this).text() +'\r\n';
+    	})
+    	$(this).html('').html(genEnvDiv(content));
+    	
+    })
+  
+    function genEnvDiv(data){
+    	if (!data){ return data};
+    	var divs = data.split('\r\n');
+    	var obj = {};
+    	$.each(divs,function(i,e){
+    		if (!e){
+    			return;
+    		}
+    		
+    		if (e.trim().startsWith('#')){
+    			obj['#'+i] = e.trim();
+    		}else{
+    			var key = e.substr(0,e.indexOf('='));
+    			var value = e.substr(e.indexOf('=')+1,e.length);
+    			obj[key] = value;
+    		}
+    	})
+    	var result = '';
+    	$.each(obj, function(key){
+			var clazz = '', value = obj[key];
+			if (key.startsWith('#')){
+    			result += '<div class="content-node comment">'+value+'</div>';
+    		}else{
+    			if (value=="true" || value=="false"){
+    				clazz='bool';
+    			}else if (/^\d+(\.\d+)?$/.test(value)){
+    				clazz='num';
+    			}else{
+    				clazz='value';
+    			}
+    			var adder = '<div class="content-node"><code class="key">'+key+'</code>=<code class="'+clazz+'">'+value+'</code></div>';
+    			result += adder;
+    		}
+    	})
+    	
+    	return result;
+    }
+  
     
     $('.table-operate-btn .layui-btn').on('click', function(){
       var type = $(this).data('type');
@@ -127,6 +248,7 @@
                 var data = layero.find('#env-form').serialize();
                 layui.$.ajax({
                     url:'/project/env/save',
+                    type:'post',
                     data:data,
                     success:function(data){
                         layer.msg(data.resultMessage);

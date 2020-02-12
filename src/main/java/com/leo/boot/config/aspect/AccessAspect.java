@@ -1,15 +1,18 @@
 package com.leo.boot.config.aspect;
 
+import java.util.List;
 import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import com.google.common.collect.Lists;
+import com.leo.boot.config.error.LoginReultCode;
 
 /********************************************************/
 /*
@@ -36,18 +39,18 @@ public class AccessAspect {
     @Autowired
     private HttpServletRequest request;
     
-    @Autowired
-    private HttpServletResponse response;
-
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.RequestMapping) or @annotation(org.springframework.web.bind.annotation.PostMapping) or @annotation(org.springframework.web.bind.annotation.GetMapping)")
-    public void logPointCut() {}
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+    public void accessPointCut() {}
     
-    @Around("logPointCut()")
+    private static List<String> allowUrls = Lists.newArrayList("/login");
+    
+    @Around("accessPointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
-        if (null == request.getSession().getAttribute("user")) {
-            response.sendRedirect("login");
+        Object user = request.getSession().getAttribute("user");
+        String url = request.getRequestURI();
+        if (!allowUrls.contains(url) && null == user) {
             logger.warn("非法访问");
-            return null;
+            return BaseResponse.newResponse(LoginReultCode.USER_LOGIN_TIMEOUT);
         }
         return point.proceed();
     }

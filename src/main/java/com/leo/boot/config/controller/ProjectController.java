@@ -32,7 +32,7 @@ Modification History:
 Date              Author        Version        Description
 ----------------------------------------------------------
 2020年2月11日    LiuZongYang     1.0            新建
-Brief Description: TODO        						  
+Brief Description: ProjectController        						  
 caution: something to be cautioned*/
 /********************************************************/
 
@@ -78,9 +78,10 @@ public class ProjectController extends CommonController{
         return envService.page(query);
     }
     
-    @GetMapping("env/save")
+    @PostMapping("env/save")
     @ResponseBody
-    public BaseResponse envSave(@Validated(EnvDTO.Save.class) EnvDTO envDTO) {
+    @UserActLog(apiName = "保存环境配置", apiUrl = "project/env/save")
+    public BaseResponse envSave(EnvDTO envDTO) {
         envService.save(envDTO);
         return success();
     }
