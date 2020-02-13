@@ -23,13 +23,13 @@
     <div class="layui-row layui-col-space15">
    	  <div class="layui-col-md4">
       	<div class="layui-card">
-      	<div class="layui-card-header">我的收藏</div>
+      	<div class="layui-card-header"><i class="layui-icon layui-icon-rate-solid"></i>我的收藏</div>
           <div class="layui-card-body">
             <div class=" table-operate-btn" style="margin-bottom: 10px;">
               <div class="layui-inline">
-                <input class="layui-input" id="name" name="name" placeholder="项目名"  autocomplete="off">
+                <input class="layui-input xs-input" id="name" name="name" placeholder="项目名"  autocomplete="off">
               </div>
-              <button class="layui-btn" data-type="reloadColl">搜索</button>
+              <button class="layui-btn layui-btn-xs" data-type="reloadColl">搜索</button>
             </div>
             <table class="layui-hide" id="coll-table" lay-filter="coll-table"></table>
           </div>
@@ -42,9 +42,9 @@
           <div class="layui-card-body">
             <div class=" table-operate-btn" style="margin-bottom: 10px;">
               <div class="layui-inline">
-                <input class="layui-input" id="realName" name="realName" placeholder="姓名"  autocomplete="off">
+                <input class="layui-input xs-input" id="realName" name="realName" placeholder="姓名"  autocomplete="off">
               </div>
-              <button class="layui-btn" data-type="reload">搜索</button>
+              <button class="layui-btn layui-btn-xs" data-type="reload">搜索</button>
             </div>
             <table class="layui-hide" id="table-page" lay-filter="table-page"></table>
           </div>
@@ -76,7 +76,7 @@
         ,{field:'params',  title: '参数'}
         ,{field:'createTime', title: '操作时间'}
       ]]
-      ,page: true
+      ,page: true,
     });
     
     table.render({
@@ -88,16 +88,14 @@
           }}
           ,{field:'remark',  title: '备注'}
         ]]
-        ,page: true
+        ,page: false
       });
 
     var $ = layui.$, active = {
     		
 	  reloadColl: function(){
 		  table.reload('coll-table', {
-            page: {
-              curr: 1 //重新从第 1 页开始
-            }
+            page: false
             ,where: {
             	name: $('#name').val(),
             }

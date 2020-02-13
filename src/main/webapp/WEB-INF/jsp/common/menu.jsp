@@ -22,15 +22,6 @@
                   <dd data-name="mobile-pc"><a lay-href="/common-env">公共配置</a></dd>
               </dl>
             </li>
-             <li data-name="component" class="layui-nav-item">
-              <a href="javascript:;" lay-tips="公共配置" lay-direction="2">
-                <i class="layui-icon layui-icon-component"></i>
-                <cite>公共配置</cite>
-              </a>
-              <dl class="layui-nav-child">
-                  <dd data-name="mobile-pc"><a lay-href="/project">项目管理</a></dd>
-              </dl>
-            </li>
           </ul>
         </div>
       </div>

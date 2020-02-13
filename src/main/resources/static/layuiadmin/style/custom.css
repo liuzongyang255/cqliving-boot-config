@@ -12,6 +12,18 @@
     line-height: 20px;
 }
 
-.layui-table td, .layui-table th{
-	font-size: 12px;
+.layui-table td, .layui-table th {
+    font-size: 12px;
+}
+
+.xs-input {
+    height: 25px;
+}
+
+.layui-laypage a, .layui-laypage span{
+    margin: 0
+}
+
+.layui-table-page .layui-laypage a, .layui-table-page .layui-laypage span{
+    margin-bottom: 0
 }

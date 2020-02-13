@@ -58,6 +58,14 @@ public class ProjectController extends CommonController{
         return projectService.page(query);
     }
     
+    @PostMapping("del")
+    @ResponseBody
+    @UserActLog(apiName = "删除项目", apiUrl = "project/del")
+    public BaseResponse del(Long id){
+        projectService.deleteById(id);
+        return success();
+    }
+    
     @GetMapping("page/collect")
     @ResponseBody
     public PaginationResponse<ProjectDTO> pageCollect(ProjectQuery query){
