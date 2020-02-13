@@ -81,7 +81,7 @@
     
     table.render({
         elem: '#coll-table'
-        ,url: '/project/page'
+        ,url: '/project/page/collect'
         ,cols: [[
           {field:'name',  title: '项目名', templet:function(d){
           	  return '<a lay-href="/project/env?id='+d.id+'" class="proj">'+d.name+'</a>';

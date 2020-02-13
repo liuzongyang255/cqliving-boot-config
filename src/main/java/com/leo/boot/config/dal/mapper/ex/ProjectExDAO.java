@@ -20,5 +20,14 @@ public interface ProjectExDAO {
      */
     public List<ProjectDTO> query( @Param("query") ProjectQuery query);
 
+    /**
+     * [方法名]查询收藏的项目
+     * @author     leo
+     * @since      2020年2月13日 下午4:22:32
+     * @param query
+     * @return
+     */
+    public List<ProjectDTO> queryCollect(@Param("query") ProjectQuery query);
+
 
 }

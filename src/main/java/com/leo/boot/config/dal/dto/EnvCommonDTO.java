@@ -23,5 +23,8 @@ public class EnvCommonDTO  extends BaseDTO {
 
     /** 配置文档 */
     private String content;
+    
+    /** 是否引用 */
+    private boolean used;
 
 }

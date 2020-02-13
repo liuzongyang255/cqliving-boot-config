@@ -141,7 +141,14 @@ public class ProjectServiceImpl extends CommonService implements ProjectService{
     
     @Override
     public PaginationResponse<ProjectDTO> page(ProjectQuery query) {
+        query.setUserId(getUser().getId());
         return page(getPage(query), projectExDAO.query(query));
+    }
+    
+    @Override
+    public PaginationResponse<ProjectDTO> pageCollect(ProjectQuery query) {
+        query.setUserId(getUser().getId());
+        return page(getPage(query), projectExDAO.queryCollect(query));
     }
     
     @Override

@@ -36,6 +36,8 @@ public class EnvDTO extends BaseDTO{
 
     private Long projectId;
     
+    private String commonIds;
+    
     public static interface Save{}
 }
 

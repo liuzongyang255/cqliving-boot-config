@@ -1,6 +1,7 @@
 package com.leo.boot.config.controller;
 
 import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
+import org.cqliving.framework.cloud.mybatis.result.ListResponse;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -46,6 +47,12 @@ public class EnvCommonController extends CommonController{
     @ResponseBody
     public PaginationResponse<EnvCommonDTO> page(EnvCommonQuery query) {
         return commonService.page(query);
+    }
+    
+    @GetMapping("listWithUsed")
+    @ResponseBody
+    public ListResponse<EnvCommonDTO> listWithUsed(Long envId) {
+        return success(commonService.listWithUsed(envId));
     }
     
     @PostMapping("save")

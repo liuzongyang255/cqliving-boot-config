@@ -79,10 +79,11 @@
       </div>
       <div class="layui-col-md8">
         <div class="layui-card">
-          <div class="layui-card-header">配置信息<t style="color: red;">(仅支持properties格式)</t></div>
+          <div class="layui-card-header">配置信息</div>
           <div class="layui-card-body">
             <input type="hidden" id="env-content-id" />
             <div id="env-content-edit" class="env-content-edit" contenteditable="true" >
+              <div class="content-node">&nbsp;</div>
             </div>
           </div>
         </div>
@@ -115,40 +116,42 @@
     });
     
     var active = {
-  	  add: function(){
-  		layeropen();
-      },
-      save: function(){
-    	var content = '';
-      	$('.content-node').each(function(i,e){
-      		content += $(this).text() +'\r\n';
-      	})
-      	if (content){
-      		var envId = $('#env-content-id').val();
-      		$.ajax({
-      			url:'/common-env/save',
-      			type:'post',
-      			data:{content:content,id:envId},
-      			success:function(data){
-      				layer.msg('保存成功');
-      				active.reload();
-      			}
-      		})
-      		
-      	}
-      	
-    	  
-      },
-      reload: function(){
-    	  table.reload('table-page', {
-            page: {
-              curr: 1 //重新从第 1 页开始
+        add: function(){
+            layeropen();
+        },
+        save: function(){
+            var envId = $('#env-content-id').val();
+            if (!envId){
+              layer.msg('请选择环境')
+              return;
             }
-            ,where: {
-            	envName: $('#envName').val(),
+            var content = '';
+            $('.content-node').each(function(i,e){
+            	content += $(this).text() +'\r\n';
+            })
+            if (content){
+            	$.ajax({
+            		url:'/common-env/save',
+            		type:'post',
+            		data:{content:content,id:envId},
+            		success:function(data){
+            		    layer.msg(data.resultMessage);
+            			active.reload();
+            		}
+            	})
+            	
             }
-          });
-      }
+        },
+        reload: function(){
+            table.reload('table-page', {
+                page: {
+                  curr: 1 //重新从第 1 页开始
+                }
+                ,where: {
+                	envName: $('#envName').val(),
+                }
+            });
+        }
     };
     
   //监听工具条
@@ -178,8 +181,14 @@
     });
   
     $('#env-content-edit').on('blur',function(){
+        var data = {};
+        if ($(this).find('.content-node .content-node').length > 0){
+            data = $(this).find('.content-node .content-node');
+        }else{
+            data = $(this).find('div');
+        }
     	var content = '';
-    	$(this).find('div').each(function(i,e){
+    	data.each(function(i,e){
     		content += $(this).text() +'\r\n';
     	})
     	$(this).html('<div class="content-node">&nbsp;</div>');

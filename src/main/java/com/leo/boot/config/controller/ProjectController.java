@@ -58,6 +58,12 @@ public class ProjectController extends CommonController{
         return projectService.page(query);
     }
     
+    @GetMapping("page/collect")
+    @ResponseBody
+    public PaginationResponse<ProjectDTO> pageCollect(ProjectQuery query){
+        return projectService.pageCollect(query);
+    }
+    
     @PostMapping("save")
     @ResponseBody
     @UserActLog(apiName = "保存项目", apiUrl = "project/save")
@@ -83,6 +89,22 @@ public class ProjectController extends CommonController{
     @UserActLog(apiName = "保存环境配置", apiUrl = "project/env/save")
     public BaseResponse envSave(EnvDTO envDTO) {
         envService.save(envDTO);
+        return success();
+    }
+    
+    @PostMapping("env/del")
+    @ResponseBody
+    @UserActLog(apiName = "删除环境配置", apiUrl = "project/env/del")
+    public BaseResponse envDel(Long envId) {
+        envService.deleteById(envId);
+        return success();
+    }
+    
+    @PostMapping("env/publish")
+    @ResponseBody
+    @UserActLog(apiName = "发布环境配置", apiUrl = "project/env/publish")
+    public BaseResponse envPublish(Long envId) {
+        // FIXME publish
         return success();
     }
     

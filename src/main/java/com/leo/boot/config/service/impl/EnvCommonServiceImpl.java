@@ -12,6 +12,7 @@ import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.EnvCommonDTO;
 import com.leo.boot.config.dal.entity.EnvCommonDO;
 import com.leo.boot.config.dal.mapper.EnvCommonDAO;
+import com.leo.boot.config.dal.mapper.ex.EnvCommonExDAO;
 import com.leo.boot.config.dal.query.EnvCommonQuery;
 import com.leo.boot.config.service.EnvCommonService;
 
@@ -23,6 +24,9 @@ public class EnvCommonServiceImpl extends CommonService implements EnvCommonServ
     
     @Autowired
     private EnvCommonDAO envCommonDAO;
+    
+    @Autowired
+    private EnvCommonExDAO envCommonExDAO;
 
 
     /**
@@ -148,6 +152,11 @@ public class EnvCommonServiceImpl extends CommonService implements EnvCommonServ
         }else {
             envCommonDAO.updateSelective(env);
         }
+    }
+    
+    @Override
+    public List<EnvCommonDTO> listWithUsed(Long envId) {
+        return envCommonExDAO.listWithUsed(envId);
     }
 
 }

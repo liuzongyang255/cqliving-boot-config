@@ -8,7 +8,6 @@ import org.springframework.validation.annotation.Validated;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
-import com.leo.boot.config.aspect.UserActLog;
 import com.leo.boot.config.common.CommonController;
 import com.leo.boot.config.dal.entity.UserProjectCollectDO;
 import com.leo.boot.config.service.UserProjectCollectService;
@@ -25,7 +24,7 @@ Modification History:
 Date              Author        Version        Description
 ----------------------------------------------------------
 2020年2月11日    LiuZongYang     1.0            新建
-Brief Description: TODO        						  
+Brief Description: UserProjectCollectController        						  
 caution: something to be cautioned*/
 /********************************************************/
 
@@ -39,7 +38,6 @@ public class UserProjectCollectController extends CommonController{
     
     @PostMapping("save")
     @ResponseBody
-    @UserActLog(apiName = "收藏项目",apiUrl = "collect/add")
     public BaseResponse save(@NotNull(message = "项目id不能为空") Long projectId, boolean cl) {
         Long userId = getUser().getId();
         try {

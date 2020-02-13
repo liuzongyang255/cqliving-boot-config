@@ -235,5 +235,10 @@
         </where>
 
     </delete>
+    
+    <delete id="deleteByEnvId">
+        DELETE  FROM env_common_ref
+        WHERE env_id = #{envId}
+    </delete>
 
 </mapper>

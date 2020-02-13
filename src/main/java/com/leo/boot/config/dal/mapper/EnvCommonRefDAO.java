@@ -4,9 +4,8 @@
  */
 package com.leo.boot.config.dal.mapper;
 
-import org.apache.ibatis.annotations.Param;
-
 import java.util.List;
+import org.apache.ibatis.annotations.Param;
 import com.leo.boot.config.dal.entity.EnvCommonRefDO;
 /**
  * <p> env_common_ref dao层</p>
@@ -90,5 +89,7 @@ public interface EnvCommonRefDAO {
      *    @return int
      */
     public int deleteByIdIn( @Param("list")Iterable list);
+
+    public void deleteByEnvId(@Param("envId") Long envId);
 
 }

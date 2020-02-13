@@ -101,5 +101,7 @@ public interface ProjectService{
      * @param projectDTO
      */
     public void save(ProjectDTO projectDTO);
+
+    public PaginationResponse<ProjectDTO> pageCollect(ProjectQuery query);
     
 }

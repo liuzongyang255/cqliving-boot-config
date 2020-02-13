@@ -28,6 +28,8 @@ public class ProjectQuery extends BaseQuery{
 
     private String name;
     
+    private Long userId;
+    
 }
 
  

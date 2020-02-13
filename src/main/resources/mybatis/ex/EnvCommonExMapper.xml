@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- ==========================================================  -->
+<!--    env_common                  -->
+<!-- ==========================================================  -->
+<mapper namespace="com.leo.boot.config.dal.mapper.ex.EnvCommonExDAO">
+
+    <select id="listWithUsed" resultType="com.leo.boot.config.dal.dto.EnvCommonDTO">
+        SELECT 
+            a.id, 
+            a.env_name, 
+            a.content, 
+            (b.env_id is NOT null and b.env_id != '') used 
+        FROM env_common a
+        LEFT JOIN env_common_ref b ON a.id = b.common_id AND env_id = #{envId}
+    </select>
+
+</mapper>

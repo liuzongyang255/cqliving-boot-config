@@ -96,4 +96,13 @@ public interface EnvCommonService{
 
     public void save(EnvCommonDTO dto);
 
+    /**
+     * [方法名]查询分页并包含指定envId是否引用
+     * @author     leo
+     * @since      2020年2月13日 下午6:31:06
+     * @param envId
+     * @return
+     */
+    public List<EnvCommonDTO> listWithUsed(Long envId);
+
 }
