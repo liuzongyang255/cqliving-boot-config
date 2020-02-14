@@ -98,7 +98,8 @@
     </div>
     
     <!-- 公共配置弹窗模板 -->
-  <script src="/layuiadmin/layui/layui.js"></script>  
+  <script src="/layuiadmin/layui/layui.js"></script>
+  <script src="/js/common.js?v=1.0"></script>
   <script src="/js/env.js?v=2.1"></script>
 </body>
 </html>

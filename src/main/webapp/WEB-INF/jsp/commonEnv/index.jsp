@@ -92,6 +92,7 @@
   </div>
   
   <script src="/layuiadmin/layui/layui.js"></script>  
+  <script src="/js/common.js?v=1.0"></script>
   <script>
   layui.config({
     base: '/layuiadmin/' //静态资源所在路径

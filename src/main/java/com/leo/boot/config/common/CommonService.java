@@ -26,7 +26,7 @@ public abstract class CommonService extends AbstractService{
     protected UserDO getUser() {
         UserDO user = (UserDO) request.getSession().getAttribute("user");
         if (null == user) {
-            throw new BizException(LoginReultCode.USER_NOT_EXISTS);
+            throw new BizException(LoginReultCode.USER_LOGIN_TIMEOUT);
         }
         return user;
     }

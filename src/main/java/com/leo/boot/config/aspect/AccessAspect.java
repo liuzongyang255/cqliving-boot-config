@@ -3,9 +3,11 @@ package com.leo.boot.config.aspect;
 import java.util.List;
 import javax.servlet.http.HttpServletRequest;
 import org.aspectj.lang.ProceedingJoinPoint;
+import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
+import org.aspectj.lang.reflect.MethodSignature;
 import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -13,6 +15,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import com.google.common.collect.Lists;
 import com.leo.boot.config.error.LoginReultCode;
+import cqliving.framework.cloud.core.error.BizException;
 
 /********************************************************/
 /*
@@ -32,14 +35,16 @@ caution: something to be cautioned*/
 
 @Aspect
 @Component
-public class AccessAspect {
+public class AccessAspect{
     
     private static final Logger logger = LoggerFactory.getLogger(AccessAspect.class);
     
     @Autowired
     private HttpServletRequest request;
     
-    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)")
+    @Pointcut("@annotation(org.springframework.web.bind.annotation.PostMapping)"
+            + "|| @annotation(org.springframework.web.bind.annotation.GetMapping)"
+            + "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void accessPointCut() {}
     
     private static List<String> allowUrls = Lists.newArrayList("/login");
@@ -48,9 +53,11 @@ public class AccessAspect {
     public Object around(ProceedingJoinPoint point) throws Throwable {
         Object user = request.getSession().getAttribute("user");
         String url = request.getRequestURI();
-        if (!allowUrls.contains(url) && null == user) {
+        Signature s = point.getSignature();
+        Class<?> returnType = ((MethodSignature) s).getReturnType();
+        if (!allowUrls.contains(url) && null == user && BaseResponse.class.isAssignableFrom(returnType)) {
             logger.warn("非法访问");
-            return BaseResponse.newResponse(LoginReultCode.USER_LOGIN_TIMEOUT);
+            throw new BizException(LoginReultCode.USER_LOGIN_TIMEOUT);
         }
         return point.proceed();
     }
