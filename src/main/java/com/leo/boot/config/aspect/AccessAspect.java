@@ -12,8 +12,8 @@ import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
-import com.google.common.collect.Lists;
 import com.leo.boot.config.error.LoginReultCode;
 import cqliving.framework.cloud.core.error.BizException;
 
@@ -47,7 +47,8 @@ public class AccessAspect{
             + "|| @annotation(org.springframework.web.bind.annotation.RequestMapping)")
     public void accessPointCut() {}
     
-    private static List<String> allowUrls = Lists.newArrayList("/login");
+    @Value("${access.urls:/login}")
+    private List<String> allowUrls;
     
     @Around("accessPointCut()")
     public Object around(ProceedingJoinPoint point) throws Throwable {
