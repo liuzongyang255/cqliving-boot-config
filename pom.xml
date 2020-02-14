@@ -10,7 +10,7 @@
     <parent>
         <groupId>org.cqlivingframework.cloud</groupId>
         <artifactId>cqliving-framework-cloud-parent</artifactId>
-        <version>1.0.1-SNAPSHOT</version>
+        <version>1.0.3-SNAPSHOT</version>
     </parent>
 
     <name>leo-boot-config</name>
