@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- ==========================================================  -->
-<!--    env_common                  -->
+<!-- 公共配置   env_common                  -->
 <!-- ==========================================================  -->
 <mapper namespace="com.leo.boot.config.dal.mapper.EnvCommonDAO">
     <!-- ============================================= -->
@@ -233,6 +233,98 @@
         DELETE  FROM env_common
         <where>
             id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvCommonDAO.findByEnvName -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findByEnvName" resultMap="envCommonDO">
+        
+        SELECT 
+            <include refid="envCommon_Columns"/>
+          FROM env_common envCommon
+        <where>
+           AND env_name = #{envName,jdbcType=VARCHAR}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for EnvCommonDAO.deleteByEnvName -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteByEnvName">
+        
+        DELETE  FROM env_common
+        <where>
+            <!-- 环境名 -->
+           AND env_name = #{envName,jdbcType=VARCHAR}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvCommonDAO.updateByEnvName -->
+    <!-- 修改数据 -->
+    <update id="updateByEnvName">
+        
+        UPDATE env_common
+        <set>
+            <!-- 配置文档 -->
+            content = #{envCommon.content,jdbcType=VARCHAR},
+        </set>
+        <where>
+            <!-- 环境名 -->
+           AND env_name = #{envCommon.envName,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvCommonDAO.updateSelectiveByEnvName -->
+    <!-- 值修改不为空的数据 -->
+    <update id="updateSelectiveByEnvName">
+        
+        UPDATE env_common
+        <set>
+            <!-- 配置文档 -->
+            <if test="envCommon.content!=null  and envCommon.content!='' " >
+                content = #{envCommon.content,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <!-- 环境名 -->
+           AND env_name = #{envCommon.envName,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvCommonDAO.findByEnvNameIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByEnvNameIn" resultMap="envCommonDO">
+        
+        SELECT 
+            <include refid="envCommon_Columns"/>
+          FROM env_common envCommon
+        <where>
+            <!-- 环境名 -->
+            env_name IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for EnvCommonDAO.deleteByEnvNameIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByEnvNameIn">
+        
+        DELETE  FROM env_common
+        <where>
+            <!-- 环境名 -->
+            env_name IN 
             <foreach collection="list" item="item"  open="(" separator="," close=")"> 
                 #{item} 
             </foreach> 

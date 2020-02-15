@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- ==========================================================  -->
-<!--    env                  -->
+<!-- 环境配置   env                  -->
 <!-- ==========================================================  -->
 <mapper namespace="com.leo.boot.config.dal.mapper.EnvDAO">
     <!-- ============================================= -->
@@ -213,6 +213,72 @@
         </where>
 
     </delete>
+
+    <!-- mapped statement for EnvDAO.findByEnvNameAndProjectId -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findByEnvNameAndProjectId" resultMap="envDO">
+        
+        SELECT 
+            <include refid="env_Columns"/>
+          FROM env env
+        <where>
+           AND env_name = #{envName,jdbcType=VARCHAR}
+           AND project_id = #{projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for EnvDAO.deleteByEnvNameAndProjectId -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteByEnvNameAndProjectId">
+        
+        DELETE  FROM env
+        <where>
+            <!-- 环境名 -->
+           AND env_name = #{envName,jdbcType=VARCHAR}
+            <!-- 项目id -->
+           AND project_id = #{projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for EnvDAO.updateByEnvNameAndProjectId -->
+    <!-- 修改数据 -->
+    <update id="updateByEnvNameAndProjectId">
+        
+        UPDATE env
+        <set>
+            <!-- 所有配置 -->
+            content = #{env.content,jdbcType=VARCHAR},
+        </set>
+        <where>
+            <!-- 环境名 -->
+           AND env_name = #{env.envName,jdbcType=VARCHAR}
+            <!-- 项目id -->
+           AND project_id = #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for EnvDAO.updateSelectiveByEnvNameAndProjectId -->
+    <!-- 值修改不为空的数据 -->
+    <update id="updateSelectiveByEnvNameAndProjectId">
+        
+        UPDATE env
+        <set>
+            <!-- 所有配置 -->
+            <if test="env.content!=null  and env.content!='' " >
+                content = #{env.content,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+            <!-- 环境名 -->
+           AND env_name = #{env.envName,jdbcType=VARCHAR}
+            <!-- 项目id -->
+           AND project_id = #{env.projectId,jdbcType=BIGINT,javaType=java.lang.Long}
+        </where>
+
+    </update>
 
     <!-- mapped statement for EnvDAO.findById -->
     <!-- 根据指定字段的值查询数据 -->

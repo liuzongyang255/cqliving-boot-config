@@ -1,6 +1,6 @@
 (function() {
     layui.use([ 'jquery', 'layer' ], function() {
-        var layer = layui.layer
+        var layer = top.layer?top.layer:layui.layer
         // 将原ajax放到_ajax中
         , _ajax = layui.$.ajax, close = function(res, index) {
             layer.close(index);
@@ -31,6 +31,11 @@
                 if (cfg._success != null) {
                     cfg._success(res);
                 }
+            }
+            cfg.error = function(jqXHR, textStatus, errorThrown){
+            	if (jqXHR.status !== 200){
+            		layer.alert(jqXHR.responseText,{icon : 2})
+            	}
             }
             _ajax(cfg);
         }

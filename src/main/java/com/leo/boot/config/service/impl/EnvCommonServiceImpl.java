@@ -5,16 +5,21 @@
 package com.leo.boot.config.service.impl;
 
 import java.util.List;
+
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.EnvCommonDTO;
 import com.leo.boot.config.dal.entity.EnvCommonDO;
 import com.leo.boot.config.dal.mapper.EnvCommonDAO;
 import com.leo.boot.config.dal.mapper.ex.EnvCommonExDAO;
 import com.leo.boot.config.dal.query.EnvCommonQuery;
+import com.leo.boot.config.error.ProjectResultCode;
 import com.leo.boot.config.service.EnvCommonService;
+
+import cqliving.framework.cloud.core.error.BizException;
 
 /**
  * <p> env_common service实现层</p>
@@ -146,6 +151,11 @@ public class EnvCommonServiceImpl extends CommonService implements EnvCommonServ
     
     @Override
     public void save(EnvCommonDTO dto) {
+        // 查重
+        if (null != envCommonDAO.findByEnvName(dto.getEnvName())) {
+            throw new BizException(ProjectResultCode.PROJECT_COMMON_ENV_EXISTS);
+        }
+        
         EnvCommonDO env = copy(dto, EnvCommonDO.class);
         if (null == env.getId()) {
             envCommonDAO.insert(env);

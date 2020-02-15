@@ -5,10 +5,12 @@
 package com.leo.boot.config.service.impl;
 
 import java.util.List;
+
 import org.apache.commons.lang3.StringUtils;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.google.common.collect.Lists;
 import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.EnvDTO;
@@ -17,7 +19,10 @@ import com.leo.boot.config.dal.entity.EnvDO;
 import com.leo.boot.config.dal.mapper.EnvCommonRefDAO;
 import com.leo.boot.config.dal.mapper.EnvDAO;
 import com.leo.boot.config.dal.query.EnvQuery;
+import com.leo.boot.config.error.ProjectResultCode;
 import com.leo.boot.config.service.EnvService;
+
+import cqliving.framework.cloud.core.error.BizException;
 
 /**
  * <p> env service实现层</p>
@@ -149,6 +154,12 @@ public class EnvServiceImpl extends CommonService implements EnvService{
     
     @Override
     public void save(EnvDTO envDTO) {
+        
+        // 查询是否重复
+        if (null != envDAO.findByEnvNameAndProjectId(envDTO.getEnvName(), envDTO.getProjectId())) {
+            throw new BizException(ProjectResultCode.PROJECT_ENV_EXISTS);
+        }
+        
         // 保存环境配置
         EnvDO env = copy(envDTO, EnvDO.class);
         if (null == env.getId()) {

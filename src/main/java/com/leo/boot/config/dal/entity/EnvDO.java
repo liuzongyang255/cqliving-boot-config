@@ -1,12 +1,12 @@
 /*
- * http://www.leo-config.com Inc
+ * http://www.leo.com Inc
  * Copyright (c) 2020 All Rights Reserved.
  */
 package com.leo.boot.config.dal.entity;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 /**
- * <p> env do层</p>
+ * <p>环境配置 env do层</p>
  */
 @Data
 @EqualsAndHashCode(callSuper=false)

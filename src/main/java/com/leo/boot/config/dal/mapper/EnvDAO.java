@@ -1,5 +1,5 @@
 /*
- * http://www.leo-config.com Inc
+ * http://www.leo.com Inc
  * Copyright (c) 2020 All Rights Reserved.
  */
 package com.leo.boot.config.dal.mapper;
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import com.leo.boot.config.dal.entity.EnvDO;
 /**
- * <p> env dao层</p>
+ * <p>环境配置 env dao层</p>
  */
  @SuppressWarnings("rawtypes")
 public interface EnvDAO {
@@ -62,6 +62,36 @@ public interface EnvDAO {
      *    @return int
      */
     public int delete( @Param("env")EnvDO env);
+
+    /**
+     * <p>根据指定字段的值查询数据</p>
+     *    @param envName
+     *    @param projectId
+     *    @return EnvDO
+     */
+    public EnvDO findByEnvNameAndProjectId( @Param("envName")String envName,  @Param("projectId")Long projectId);
+
+    /**
+     * <p>根据主键删除数据</p>
+     *    @param envName
+     *    @param projectId
+     *    @return int
+     */
+    public int deleteByEnvNameAndProjectId( @Param("envName")String envName,  @Param("projectId")Long projectId);
+
+    /**
+     * <p>修改数据</p>
+     *    @param env
+     *    @return int
+     */
+    public int updateByEnvNameAndProjectId( @Param("env")EnvDO env);
+
+    /**
+     * <p>值修改不为空的数据</p>
+     *    @param env
+     *    @return int
+     */
+    public int updateSelectiveByEnvNameAndProjectId( @Param("env")EnvDO env);
 
     /**
      * <p>根据指定字段的值查询数据</p>

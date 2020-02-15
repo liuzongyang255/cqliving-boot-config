@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- ==========================================================  -->
-<!--    project                  -->
+<!-- 项目管理表   project                  -->
 <!-- ==========================================================  -->
 <mapper namespace="com.leo.boot.config.dal.mapper.ProjectDAO">
     <!-- ============================================= -->
@@ -240,6 +240,99 @@
         DELETE  FROM project
         <where>
             id IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for ProjectDAO.findByName -->
+    <!-- 根据指定字段的值查询数据 -->
+    <select id="findByName" resultMap="projectDO">
+        
+        SELECT 
+            <include refid="project_Columns"/>
+          FROM project project
+        <where>
+           AND name = #{name,jdbcType=VARCHAR}
+        </where>
+
+    </select>
+    
+    <!-- mapped statement for ProjectDAO.deleteByName -->
+    <!-- 根据主键删除数据 -->
+    <delete id="deleteByName">
+        
+        DELETE  FROM project
+        <where>
+           AND name = #{name,jdbcType=VARCHAR}
+        </where>
+
+    </delete>
+
+    <!-- mapped statement for ProjectDAO.updateByName -->
+    <!-- 修改数据 -->
+    <update id="updateByName">
+        
+        UPDATE project
+        <set>
+            <if test="project.userId!=null " >
+                user_id = #{project.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- 备注 -->
+            remark = #{project.remark,jdbcType=VARCHAR},
+        </set>
+        <where>
+           AND name = #{project.name,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for ProjectDAO.updateSelectiveByName -->
+    <!-- 值修改不为空的数据 -->
+    <update id="updateSelectiveByName">
+        
+        UPDATE project
+        <set>
+            <if test="project.userId!=null " >
+                user_id = #{project.userId,jdbcType=BIGINT,javaType=java.lang.Long},
+            </if>
+            <!-- 备注 -->
+            <if test="project.remark!=null  and project.remark!='' " >
+                remark = #{project.remark,jdbcType=VARCHAR},
+            </if>
+        </set>
+        <where>
+           AND name = #{project.name,jdbcType=VARCHAR}
+        </where>
+
+    </update>
+
+    <!-- mapped statement for ProjectDAO.findByNameIn -->
+    <!-- 根据指定字段的多个值查询数据 -->
+    <select id="findByNameIn" resultMap="projectDO">
+        
+        SELECT 
+            <include refid="project_Columns"/>
+          FROM project project
+        <where>
+            name IN 
+            <foreach collection="list" item="item"  open="(" separator="," close=")"> 
+                #{item} 
+            </foreach> 
+        </where>
+         ORDER BY id DESC 
+
+    </select>
+    
+    <!-- mapped statement for ProjectDAO.deleteByNameIn -->
+    <!-- 根据主键列表删除多条数据 -->
+    <delete id="deleteByNameIn">
+        
+        DELETE  FROM project
+        <where>
+            name IN 
             <foreach collection="list" item="item"  open="(" separator="," close=")"> 
                 #{item} 
             </foreach> 

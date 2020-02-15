@@ -1,5 +1,5 @@
 /*
- * http://www.leo-config.com Inc
+ * http://www.leo.com Inc
  * Copyright (c) 2020 All Rights Reserved.
  */
 package com.leo.boot.config.dal.mapper;
@@ -9,7 +9,7 @@ import org.apache.ibatis.annotations.Param;
 import java.util.List;
 import com.leo.boot.config.dal.entity.EnvCommonDO;
 /**
- * <p> env_common dao层</p>
+ * <p>公共配置 env_common dao层</p>
  */
  @SuppressWarnings("rawtypes")
 public interface EnvCommonDAO {
@@ -90,5 +90,47 @@ public interface EnvCommonDAO {
      *    @return int
      */
     public int deleteByIdIn( @Param("list")Iterable list);
+
+    /**
+     * <p>根据指定字段的值查询数据</p>
+     *    @param envName
+     *    @return EnvCommonDO
+     */
+    public EnvCommonDO findByEnvName( @Param("envName")String envName);
+
+    /**
+     * <p>根据主键删除数据</p>
+     *    @param envName
+     *    @return int
+     */
+    public int deleteByEnvName( @Param("envName")String envName);
+
+    /**
+     * <p>修改数据</p>
+     *    @param envCommon
+     *    @return int
+     */
+    public int updateByEnvName( @Param("envCommon")EnvCommonDO envCommon);
+
+    /**
+     * <p>值修改不为空的数据</p>
+     *    @param envCommon
+     *    @return int
+     */
+    public int updateSelectiveByEnvName( @Param("envCommon")EnvCommonDO envCommon);
+
+    /**
+     * <p>根据指定字段的多个值查询数据</p>
+     *    @param list
+     *    @return List<EnvCommonDO>
+     */
+    public List<EnvCommonDO> findByEnvNameIn( @Param("list")Iterable list);
+
+    /**
+     * <p>根据主键列表删除多条数据</p>
+     *    @param list
+     *    @return int
+     */
+    public int deleteByEnvNameIn( @Param("list")Iterable list);
 
 }

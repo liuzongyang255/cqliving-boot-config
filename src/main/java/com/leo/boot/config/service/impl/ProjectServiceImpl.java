@@ -5,16 +5,21 @@
 package com.leo.boot.config.service.impl;
 
 import java.util.List;
+
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.leo.boot.config.common.CommonService;
 import com.leo.boot.config.dal.dto.ProjectDTO;
 import com.leo.boot.config.dal.entity.ProjectDO;
 import com.leo.boot.config.dal.mapper.ProjectDAO;
 import com.leo.boot.config.dal.mapper.ex.ProjectExDAO;
 import com.leo.boot.config.dal.query.ProjectQuery;
+import com.leo.boot.config.error.ProjectResultCode;
 import com.leo.boot.config.service.ProjectService;
+
+import cqliving.framework.cloud.core.error.BizException;
 
 /**
  * <p> project service实现层</p>
@@ -155,6 +160,10 @@ public class ProjectServiceImpl extends CommonService implements ProjectService{
     public void save(ProjectDTO projectDTO) {
         ProjectDO projectDO = copy(projectDTO, ProjectDO.class);
         projectDO.setUserId(getUser().getId());
+        if (null != projectDAO.findByName(projectDO.getName())) {
+            throw new BizException(ProjectResultCode.PROJECT_EXISTS);
+        }
+        
         if (null == projectDO.getId()) {
             projectDAO.insert(projectDO);
         }else {
