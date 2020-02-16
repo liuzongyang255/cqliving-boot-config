@@ -179,11 +179,13 @@ public class EnvServiceImpl extends CommonService implements EnvService{
             envDAO.updateSelective(env);
         }
         
+        // 先删后保存，防止置空
+        commonRefDAO.deleteByEnvId(envDTO.getId());
+        
         // 保存公共配置关系
         if(StringUtils.isBlank(envDTO.getCommonIds())) {
             return;
         }
-        commonRefDAO.deleteByEnvId(envDTO.getId());
         List<EnvCommonRefDO> dos = Lists.newArrayList();
         for (String commonId : envDTO.getCommonIds().split(",")) {
             EnvCommonRefDO rdo = new EnvCommonRefDO();
