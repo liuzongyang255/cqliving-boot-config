@@ -101,77 +101,8 @@
 <script src="login/js/particles.min.js"></script>
 <script src="login/js/app.js"></script>
 <script src="/layuiadmin/layui/layui.js"></script>
-<script type="text/javascript">
-	function hasClass(elem, cls) {
-	  cls = cls || '';
-	  if (cls.replace(/\s/g, '').length == 0) return false; //当cls没有参数时，返回false
-	  return new RegExp(' ' + cls + ' ').test(' ' + elem.className + ' ');
-	}
-	 
-	function removeClass(ele, cls) {
-	  if (hasClass(ele, cls)) {
-	    var newClass = ' ' + ele.className.replace(/[\t\r\n]/g, '') + ' ';
-	    while (newClass.indexOf(' ' + cls + ' ') >= 0) {
-	      newClass = newClass.replace(' ' + cls + ' ', ' ');
-	    }
-	    ele.className = newClass.replace(/^\s+|\s+$/g, '');
-	  }
-	}
-	
-	layui.config({
-		base : '/layuiadmin/' //静态资源所在路径
-	}).extend({
-		index : 'lib/index' //主入口模块
-	}).use([ 'index', 'jquery' ], function() {
-		
-		var $ = layui.$
-		, layer = layui.layer;
-		$("#login-button").on('click',function(){
-			$.ajax({
-				url:'login',
-				data:{userName:$('#userName').val(),userPass:$('#userPass').val()},
-				type:'post',
-				success:function(data){
-					if (data.resultCode==0){
-						window.location.href="/index"
-					}
-				}
-			})
-		})
-		
-		$('#registor-button').on('click',function(){
-			var pass1 = $('#r-userPass').val();
-			var pass2 = $('#r-userPass2').val();
-			if (pass1 !== pass2){
-				layer.msg('两次密码不一致！')
-				return;
-			}
-
-			$.ajax({
-				url:'login/add',
-				data:{userName:$('#r-userName').val(),userPass:$('#r-userPass2').val(),realName:$('#r-realName').val(),email:$('#r-r-email').val()},
-				type:'post',
-				success:function(data){
-					console.log(data);
-				}
-			})
-		})
-		
-		
-		$('#registor').on('click',function(){
-			$('#login').addClass('hide');
-			$('#regist').removeClass('hide');
-		})
-		
-		$('#loginor').on('click',function(){
-			$('#regist').addClass('hide');
-			$('#login').removeClass('hide');
-		})
-		
-	})
-
-	
-</script>
+<script src="/js/common.js?v=1.1"></script>
+<script src="/js/login.js?v=1.1"></script>
 </body>
 </html>
 

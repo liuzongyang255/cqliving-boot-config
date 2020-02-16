@@ -199,7 +199,7 @@ layui.config({
     function layeropen(data, id){
         layer.open({
             title:'项目参数确认',
-            area: '50%',
+            area: '400px',
             content:'<form class="layui-form" id="env-form">'
                 + '<input type="hidden" value="'+$('#projectId').val()+'" name="projectId">'
                 + '<input type="hidden" value="'+(data&&data.id?data.id:'')+'" name="id">'
@@ -208,6 +208,13 @@ layui.config({
             btn:['确定', '取消'],
             yes: function(index, layero){
                 var data = layero.find('#env-form').serialize();
+                
+                var name = layero.find('input[name="envName"]').val();
+                if(!/^[a-zA-Z0-9_\-]+$/.test(name)){
+                	layer.msg("环境名只能是数字，下划线，中划线，字母组合");
+                	return;
+                }
+                
                 layui.$.ajax({
                     url:'/project/env/save',
                     type:'post',
