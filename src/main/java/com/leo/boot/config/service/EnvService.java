@@ -5,7 +5,9 @@
 package com.leo.boot.config.service;
 
 import java.util.List;
+
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
+
 import com.leo.boot.config.dal.dto.EnvDTO;
 import com.leo.boot.config.dal.entity.EnvDO;
 import com.leo.boot.config.dal.query.EnvQuery;
@@ -95,5 +97,14 @@ public interface EnvService{
     public PaginationResponse<EnvDTO> page(EnvQuery query);
 
     public void save(EnvDTO envDTO);
+
+    /**
+     * <p></p>
+     * @author liuzongyang on 2020年2月16日
+     * @param appName
+     * @param envName
+     * @return
+     */
+    public String getByProjectNameAndEnvName(String appName, String envName);
 
 }

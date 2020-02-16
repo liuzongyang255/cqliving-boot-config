@@ -5,7 +5,9 @@
 package com.leo.boot.config.service;
 
 import java.util.List;
+
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
+
 import com.leo.boot.config.dal.dto.ProjectDTO;
 import com.leo.boot.config.dal.entity.ProjectDO;
 import com.leo.boot.config.dal.query.ProjectQuery;
@@ -103,5 +105,12 @@ public interface ProjectService{
     public void save(ProjectDTO projectDTO);
 
     public PaginationResponse<ProjectDTO> pageCollect(ProjectQuery query);
+
+    /**
+     * <p></p>
+     * @author liuzongyang on 2020年2月16日
+     * @param appName
+     */
+    public ProjectDO getByProjectName(String appName);
     
 }

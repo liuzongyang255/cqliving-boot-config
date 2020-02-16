@@ -13,14 +13,19 @@ import org.springframework.stereotype.Service;
 
 import com.google.common.collect.Lists;
 import com.leo.boot.config.common.CommonService;
+import com.leo.boot.config.dal.dto.EnvCommonDTO;
 import com.leo.boot.config.dal.dto.EnvDTO;
 import com.leo.boot.config.dal.entity.EnvCommonRefDO;
 import com.leo.boot.config.dal.entity.EnvDO;
+import com.leo.boot.config.dal.entity.ProjectDO;
 import com.leo.boot.config.dal.mapper.EnvCommonRefDAO;
 import com.leo.boot.config.dal.mapper.EnvDAO;
+import com.leo.boot.config.dal.mapper.ex.EnvCommonExDAO;
 import com.leo.boot.config.dal.query.EnvQuery;
+import com.leo.boot.config.error.EnvResultCode;
 import com.leo.boot.config.error.ProjectResultCode;
 import com.leo.boot.config.service.EnvService;
+import com.leo.boot.config.service.ProjectService;
 
 import cqliving.framework.cloud.core.error.BizException;
 
@@ -35,6 +40,12 @@ public class EnvServiceImpl extends CommonService implements EnvService{
     
     @Autowired
     private EnvCommonRefDAO commonRefDAO;
+    
+    @Autowired
+    private EnvCommonExDAO envCommonExDAO;
+    
+    @Autowired
+    private ProjectService projectService;
 
 
     /**
@@ -182,6 +193,27 @@ public class EnvServiceImpl extends CommonService implements EnvService{
         }
         commonRefDAO.batchInsert(dos);
         
+    }
+    
+    
+    @Override
+    public String getByProjectNameAndEnvName(String appName, String envName) {
+        ProjectDO project = projectService.getByProjectName(appName);
+        if (null == project) {
+            throw new BizException(ProjectResultCode.PROJECT_NOT_EXISTS);
+        }
+        EnvDO env = envDAO.findByEnvNameAndProjectId(envName, project.getId());
+        if (null == env) {
+            throw new BizException(EnvResultCode.ENV_NOT_EXISTS);
+        }
+        StringBuilder sb = new StringBuilder();
+        sb.append(env.getContent()).append("\r\n");
+        List<EnvCommonDTO> commons = envCommonExDAO.listByEnvId(env.getId());
+        for (EnvCommonDTO common : commons) {
+            sb.append(common.getContent()).append("\r\n");
+        }
+        sb.deleteCharAt(sb.length()-1);
+        return sb.toString();
     }
 
 }

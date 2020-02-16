@@ -14,5 +14,12 @@
         FROM env_common a
         LEFT JOIN env_common_ref b ON a.id = b.common_id AND env_id = #{envId}
     </select>
+    
+    <select id="listByEnvId" resultType="com.leo.boot.config.dal.dto.EnvCommonDTO">
+        SELECT b.id, b.env_name, b.content 
+        FROM `env_common_ref` a 
+        JOIN `env_common` b on a.common_id = b.id
+        WHERE a.env_id = #{envId}
+    </select>
 
 </mapper>

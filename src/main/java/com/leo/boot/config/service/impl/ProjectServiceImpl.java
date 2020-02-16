@@ -171,5 +171,10 @@ public class ProjectServiceImpl extends CommonService implements ProjectService{
         }
         
     }
+    
+    @Override
+    public ProjectDO getByProjectName(String appName) {
+        return projectDAO.findByName(appName);
+    }
 
 }

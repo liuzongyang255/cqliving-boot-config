@@ -1,6 +1,7 @@
 package com.leo.boot.config.controller;
 
 import javax.validation.constraints.NotNull;
+
 import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -11,6 +12,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.leo.boot.config.aspect.UserActLog;
 import com.leo.boot.config.common.CommonController;
 import com.leo.boot.config.dal.dto.EnvDTO;
@@ -114,6 +116,12 @@ public class ProjectController extends CommonController{
     public BaseResponse envPublish(Long envId) {
         // FIXME publish
         return success();
+    }
+    
+    @GetMapping("env/get")
+    @ResponseBody
+    public String envGet(String appName, String envName) {
+        return envService.getByProjectNameAndEnvName(appName, envName);
     }
     
 }

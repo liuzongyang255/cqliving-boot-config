@@ -10,21 +10,15 @@ package com.leo.boot.config.error;
 import cqliving.framework.cloud.core.result.ResponseMsgAble;
 
 /**
- * Title:20开头的为项目错误
+ * Title:EnvResultCode
  * <p>Description:</p>
  * Copyright (c) CQLIVING 2020
- * @author liuzongyang on 2020年2月15日
+ * @author liuzongyang on 2020年2月16日
  */
-public enum ProjectResultCode implements ResponseMsgAble{
+public enum EnvResultCode implements ResponseMsgAble{
     
-    /** 201, "项目名已存在" */
-    PROJECT_EXISTS(201, "项目名已存在"),
-    /** 202, "该项目下环境名已存在" */
-    PROJECT_ENV_EXISTS(202, "该项目下环境名已存在"),
-    /** 203, "公共环境名已存在" */
-    PROJECT_COMMON_ENV_EXISTS(203, "公共环境名已存在"),
-    /** 204, "项目不已存在" */
-    PROJECT_NOT_EXISTS(204, "项目不已存在"),
+    /** 301, "环境名不存在" */
+    ENV_NOT_EXISTS(301, "环境名不存在"),
     ;
     
     private int code;
@@ -35,7 +29,7 @@ public enum ProjectResultCode implements ResponseMsgAble{
      * @param code
      * @param message
      */
-    private ProjectResultCode(int code, String message) {
+    private EnvResultCode(int code, String message) {
         this.code = code;
         this.message = message;
     }
@@ -49,5 +43,4 @@ public enum ProjectResultCode implements ResponseMsgAble{
     public String getMessage() {
         return message;
     }
-
 }
