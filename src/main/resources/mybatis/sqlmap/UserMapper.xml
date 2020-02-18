@@ -3,12 +3,12 @@
 <!-- ==========================================================  -->
 <!--    user                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.UserDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.UserDAO">
     <!-- ============================================= -->
     <!-- RESULT MAPS                                   -->
     <!-- ============================================= -->
     <!-- result maps for database table user -->
-    <resultMap id="userDO" type="com.leo.boot.config.dal.entity.UserDO">
+    <resultMap id="userDO" type="com.cqliving.config.dal.entity.UserDO">
         <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="userName" column="user_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result  property="userPass" column="user_pass" javaType="java.lang.String" jdbcType="VARCHAR"/>

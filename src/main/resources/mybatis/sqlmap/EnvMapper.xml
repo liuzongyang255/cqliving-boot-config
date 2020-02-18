@@ -3,12 +3,12 @@
 <!-- ==========================================================  -->
 <!-- 环境配置   env                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.EnvDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.EnvDAO">
     <!-- ============================================= -->
     <!-- RESULT MAPS                                   -->
     <!-- ============================================= -->
     <!-- result maps for database table env -->
-    <resultMap id="envDO" type="com.leo.boot.config.dal.entity.EnvDO">
+    <resultMap id="envDO" type="com.cqliving.config.dal.entity.EnvDO">
         <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="envName" column="env_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result  property="content" column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>

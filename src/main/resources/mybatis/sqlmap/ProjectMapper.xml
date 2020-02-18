@@ -3,12 +3,12 @@
 <!-- ==========================================================  -->
 <!-- 项目管理表   project                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.ProjectDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.ProjectDAO">
     <!-- ============================================= -->
     <!-- RESULT MAPS                                   -->
     <!-- ============================================= -->
     <!-- result maps for database table project -->
-    <resultMap id="projectDO" type="com.leo.boot.config.dal.entity.ProjectDO">
+    <resultMap id="projectDO" type="com.cqliving.config.dal.entity.ProjectDO">
         <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="name" column="name" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result  property="userId" column="user_id" javaType="java.lang.Long" jdbcType="BIGINT"/>

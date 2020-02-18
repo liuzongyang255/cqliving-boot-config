@@ -3,12 +3,12 @@
 <!-- ==========================================================  -->
 <!--    user_project_collect                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.UserProjectCollectDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.UserProjectCollectDAO">
     <!-- ============================================= -->
     <!-- RESULT MAPS                                   -->
     <!-- ============================================= -->
     <!-- result maps for database table user_project_collect -->
-    <resultMap id="userProjectCollectDO" type="com.leo.boot.config.dal.entity.UserProjectCollectDO">
+    <resultMap id="userProjectCollectDO" type="com.cqliving.config.dal.entity.UserProjectCollectDO">
         <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="userId" column="user_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="projectId" column="project_id" javaType="java.lang.Long" jdbcType="BIGINT"/>

@@ -3,12 +3,12 @@
 <!-- ==========================================================  -->
 <!--    user_act_log                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.UserActLogDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.UserActLogDAO">
     <!-- ============================================= -->
     <!-- RESULT MAPS                                   -->
     <!-- ============================================= -->
     <!-- result maps for database table user_act_log -->
-    <resultMap id="userActLogDO" type="com.leo.boot.config.dal.entity.UserActLogDO">
+    <resultMap id="userActLogDO" type="com.cqliving.config.dal.entity.UserActLogDO">
         <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="userId" column="user_id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="apiName" column="api_name" javaType="java.lang.String" jdbcType="VARCHAR"/>

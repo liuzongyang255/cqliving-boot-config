@@ -31,7 +31,7 @@ layui.config({
 			data:{userName:$('#r-userName').val(),userPass:$('#r-userPass2').val(),realName:$('#r-realName').val(),email:$('#r-r-email').val()},
 			type:'post',
 			success:function(data){
-				console.log(data);
+				layer.msg(data.resultMessage)
 			}
 		})
 	})

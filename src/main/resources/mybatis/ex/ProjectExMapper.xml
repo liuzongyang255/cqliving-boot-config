@@ -3,7 +3,7 @@
 <!-- ==========================================================  -->
 <!--    project                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.ex.ProjectExDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.ex.ProjectExDAO">
 
     <sql id="project_Columns">
         project.id,
@@ -12,7 +12,7 @@
         project.remark
     </sql>
     
-    <select id="query" resultType="com.leo.boot.config.dal.dto.ProjectDTO">
+    <select id="query" resultType="com.cqliving.config.dal.dto.ProjectDTO">
         SELECT
             a.id, a.`name`,a.user_id, a.remark, b.real_name,
             ( CASE WHEN c.id IS NULL THEN 0 WHEN c.id = '' THEN 0 ELSE 1 END ) collect 
@@ -27,7 +27,7 @@
         
     </select>
     
-    <select id="queryCollect" resultType="com.leo.boot.config.dal.dto.ProjectDTO">
+    <select id="queryCollect" resultType="com.cqliving.config.dal.dto.ProjectDTO">
         SELECT
             a.id, a.`name`,a.user_id, a.remark, b.real_name,
             ( CASE WHEN c.id IS NULL THEN 0 WHEN c.id = '' THEN 0 ELSE 1 END ) collect 

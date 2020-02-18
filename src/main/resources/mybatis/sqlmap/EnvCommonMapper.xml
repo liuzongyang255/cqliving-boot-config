@@ -3,12 +3,12 @@
 <!-- ==========================================================  -->
 <!-- 公共配置   env_common                  -->
 <!-- ==========================================================  -->
-<mapper namespace="com.leo.boot.config.dal.mapper.EnvCommonDAO">
+<mapper namespace="com.cqliving.config.dal.mapper.EnvCommonDAO">
     <!-- ============================================= -->
     <!-- RESULT MAPS                                   -->
     <!-- ============================================= -->
     <!-- result maps for database table env_common -->
-    <resultMap id="envCommonDO" type="com.leo.boot.config.dal.entity.EnvCommonDO">
+    <resultMap id="envCommonDO" type="com.cqliving.config.dal.entity.EnvCommonDO">
         <id  property="id" column="id" javaType="java.lang.Long" jdbcType="BIGINT"/>
         <result  property="envName" column="env_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result  property="content" column="content" javaType="java.lang.String" jdbcType="VARCHAR"/>
