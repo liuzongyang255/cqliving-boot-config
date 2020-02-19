@@ -126,6 +126,8 @@ layui.config({
             });
         } else if (obj.event === 'publish') {
             console.log('publish')
+        } else if (obj.event === 'download') {
+        	window.open('/project/env/export?envId='+data.id, '_parent')
         }
         
     });

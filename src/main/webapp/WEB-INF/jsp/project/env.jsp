@@ -49,6 +49,9 @@
     .num {
         color: #01aaed
     }
+    .layui-btn .layui-icon{
+        margin-right: 0
+    }
 </style>
 </head>
 <body>
@@ -71,7 +74,7 @@
             <script type="text/html" id="table-operate-bar">
               <a class="layui-btn layui-btn-xs" lay-event="update" title="编辑"><i class="layui-icon layui-icon-edit"></i></a>
               <a class="layui-btn layui-btn-xs layui-btn-danger" lay-event="del" title="删除"><i class="layui-icon layui-icon-delete"></i></a>
-              <a class="layui-btn layui-btn-xs layui-btn-normal" lay-event="publish" title="发布"><i class="layui-icon layui-icon-release"></i></a>
+              <a class="layui-btn layui-btn-xs" lay-event="download" title="下载"><i class="layui-icon layui-icon-download-circle"></i></a>
             </script>
           </div>
         </div>
@@ -100,6 +103,6 @@
     <!-- 公共配置弹窗模板 -->
   <script src="/layuiadmin/layui/layui.js"></script>
   <script src="/js/common.js?v=1.0"></script>
-  <script src="/js/env.js?v=2.1"></script>
+  <script src="/js/env.js?v=2.2"></script>
 </body>
 </html>

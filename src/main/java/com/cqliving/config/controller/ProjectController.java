@@ -1,10 +1,19 @@
 package com.cqliving.config.controller;
 
+import java.util.List;
+
 import javax.validation.constraints.NotNull;
 
+import org.apache.commons.collections.CollectionUtils;
+import org.apache.commons.lang3.StringUtils;
 import org.cqliving.framework.cloud.mybatis.result.BaseResponse;
 import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ContentDisposition;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.annotation.Validated;
@@ -15,12 +24,18 @@ import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.cqliving.config.aspect.UserActLog;
 import com.cqliving.config.common.CommonController;
+import com.cqliving.config.dal.dto.EnvCommonDTO;
 import com.cqliving.config.dal.dto.EnvDTO;
 import com.cqliving.config.dal.dto.ProjectDTO;
+import com.cqliving.config.dal.entity.EnvDO;
 import com.cqliving.config.dal.query.EnvQuery;
 import com.cqliving.config.dal.query.ProjectQuery;
+import com.cqliving.config.error.EnvResultCode;
+import com.cqliving.config.service.EnvCommonService;
 import com.cqliving.config.service.EnvService;
 import com.cqliving.config.service.ProjectService;
+
+import cqliving.framework.cloud.core.error.BizException;
 
 /********************************************************/
 /*
@@ -48,6 +63,9 @@ public class ProjectController extends CommonController{
     
     @Autowired
     private EnvService envService;
+    
+    @Autowired
+    private EnvCommonService envCommonService;
 
     @GetMapping("")
     public String index() {
@@ -122,6 +140,35 @@ public class ProjectController extends CommonController{
     @ResponseBody
     public String envGet(String appName, String envName) {
         return envService.getByProjectNameAndEnvName(appName, envName);
+    }
+
+    @GetMapping("env/export")
+    @ResponseBody
+    public ResponseEntity<byte[]> envExport(Long envId) {
+        EnvDO env = envService.findById(envId);
+        if (null == env) {
+            throw new BizException(EnvResultCode.ENV_NOT_EXISTS);
+        }
+        String content = StringUtils.isBlank(env.getContent())?StringUtils.EMPTY:env.getContent();
+        List<EnvCommonDTO> commons = envCommonService.listWithUsed(envId);
+        if (CollectionUtils.isNotEmpty(commons)) {
+            for (EnvCommonDTO common : commons) {
+                if (common.isUsed()) {
+                    content = content.concat("\r\n")
+                    .concat("# ").concat(common.getEnvName()).concat("\r\n")
+                    .concat(common.getContent());
+                }
+            }
+        }
+        
+        String fileName = "application-".concat(env.getEnvName()).concat(".properties");
+        HttpHeaders headers = new HttpHeaders();
+        // 通知浏览器以下载文件方式打开
+        ContentDisposition contentDisposition = ContentDisposition.builder("attachment").filename(fileName).build();
+        headers.setContentDisposition(contentDisposition);
+        // application/octet_stream设置MIME为任意二进制数据
+        headers.setContentType(MediaType.APPLICATION_OCTET_STREAM);
+        return new ResponseEntity<>(content.getBytes(), headers, HttpStatus.OK);
     }
     
 }
