@@ -5,8 +5,12 @@
 package com.cqliving.config.service;
 
 import java.util.List;
+
+import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
+
 import com.cqliving.config.dal.dto.UserDto;
 import com.cqliving.config.dal.entity.UserDO;
+import com.cqliving.config.dal.query.UserQuery;
 
 /**
  * <p> user service层</p>
@@ -41,14 +45,7 @@ public interface UserService{
      *    @param pageSize
      *    @return List<UserDO>
      */
-    public List<UserDO> query( UserDO user,  long start,  int pageSize);
-
-    /**
-     * <p>根据输入条件查询数据总数</p>
-     *    @param user
-     *    @return long
-     */
-    public long queryCount( UserDO user);
+    public List<UserDO> query( UserDO user);
 
     /**
      * <p>根据主键修改数据</p>
@@ -144,5 +141,28 @@ public interface UserService{
     public void login(UserDto user);
 
     public void logout();
+
+    /**
+     * <p>分页</p>
+     * @author liuzongyang on 2020年2月21日
+     * @param query
+     * @return
+     */
+    public PaginationResponse<UserDto> page(UserQuery query);
+
+    /**
+     * <p>新增用户</p>
+     * @author liuzongyang on 2020年2月21日
+     * @param user
+     */
+    public void add(UserDto user);
+
+    /**
+     * <p>重置密码</p>
+     * @author liuzongyang on 2020年2月21日
+     * @param userId
+     * @return
+     */
+    public void reset(Long userId);
 
 }

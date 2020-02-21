@@ -1,6 +1,9 @@
 package com.cqliving.config.dal.dto;
 
+import java.util.Date;
+
 import javax.validation.constraints.NotBlank;
+
 import cqliving.framework.cloud.core.pojo.BaseDTO;
 import lombok.Data;
 import lombok.EqualsAndHashCode;
@@ -32,11 +35,11 @@ public class UserDto extends BaseDTO{
     private String userName;
     /** 密码 */
     @NotBlank(message = "密码不能为空！", groups = {Login.class})
-    private String userPass;
+    private transient String userPass;
     
     /** 重复密码 */
     @NotBlank(message = "重复密码不能为空", groups = {Regist.class})
-    private String userPass2;
+    private transient String userPass2;
     
     /** 真实姓名 */
     @NotBlank(message = "姓名不能为空", groups = {Regist.class})
@@ -46,6 +49,11 @@ public class UserDto extends BaseDTO{
     @NotBlank(message = "邮件不能为空", groups = {Regist.class})
     private String email;
     
+    /** 创建时间 */
+    private Date createTime;
+
+    /** 创建人 */
+    private String creator;
     
     public static interface Login{}
     public static interface Regist{}

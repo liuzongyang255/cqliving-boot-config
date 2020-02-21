@@ -1,7 +1,7 @@
 <?xml version="1.0" encoding="UTF-8" ?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <!-- ==========================================================  -->
-<!--    user                  -->
+<!-- 用户表   user                  -->
 <!-- ==========================================================  -->
 <mapper namespace="com.cqliving.config.dal.mapper.UserDAO">
     <!-- ============================================= -->
@@ -15,6 +15,8 @@
         <result  property="userSalt" column="user_salt" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result  property="realName" column="real_name" javaType="java.lang.String" jdbcType="VARCHAR"/>
         <result  property="email" column="email" javaType="java.lang.String" jdbcType="VARCHAR"/>
+        <result  property="createTime" column="create_time" javaType="java.util.Date" jdbcType="TIMESTAMP"/>
+        <result  property="creator" column="creator" javaType="java.lang.String" jdbcType="VARCHAR"/>
     </resultMap>
 
 
@@ -24,7 +26,9 @@
         user.user_pass,
         user.user_salt,
         user.real_name,
-        user.email
+        user.email,
+        user.create_time,
+        user.creator
     </sql>
 
     <sql id="Base_Column_List">
@@ -33,7 +37,9 @@
         user_pass,
         user_salt,
         real_name,
-        email
+        email,
+        create_time,
+        creator
     </sql>
 
     <!-- ============================================= -->
@@ -57,6 +63,10 @@
             real_name ,
             <!-- 邮件地址 -->
             email ,
+            <!-- 创建时间 -->
+            create_time ,
+            <!-- 创建人 -->
+            creator ,
         </trim>
         )VALUES(
         <trim suffixOverrides=",">
@@ -70,6 +80,10 @@
             #{user.realName,jdbcType=VARCHAR},
             <!-- 邮件地址 -->
             #{user.email,jdbcType=VARCHAR},
+            <!-- 创建时间 -->
+            #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            <!-- 创建人 -->
+            #{user.creator,jdbcType=VARCHAR},
         </trim>
         )
     </insert>
@@ -83,48 +97,36 @@
         (
         <trim suffixOverrides=",">
             <!-- 用户名 -->
-            <if test="user.userName!=null  and user.userName!='' " >
-                user_name ,
-            </if>
+            user_name ,
             <!-- 密码 -->
-            <if test="user.userPass!=null  and user.userPass!='' " >
-                user_pass ,
-            </if>
+            user_pass ,
             <!-- 盐值 -->
-            <if test="user.userSalt!=null  and user.userSalt!='' " >
-                user_salt ,
-            </if>
+            user_salt ,
             <!-- 真实姓名 -->
-            <if test="user.realName!=null  and user.realName!='' " >
-                real_name ,
-            </if>
+            real_name ,
             <!-- 邮件地址 -->
-            <if test="user.email!=null  and user.email!='' " >
-                email ,
-            </if>
+            email ,
+            <!-- 创建时间 -->
+            create_time ,
+            <!-- 创建人 -->
+            creator ,
         </trim>
         )VALUES(
         <trim suffixOverrides=",">
             <!-- 用户名 -->
-            <if test="user.userName!=null  and user.userName!='' " >
-                #{user.userName,jdbcType=VARCHAR},
-            </if>
+            #{user.userName,jdbcType=VARCHAR},
             <!-- 密码 -->
-            <if test="user.userPass!=null  and user.userPass!='' " >
-                #{user.userPass,jdbcType=VARCHAR},
-            </if>
+            #{user.userPass,jdbcType=VARCHAR},
             <!-- 盐值 -->
-            <if test="user.userSalt!=null  and user.userSalt!='' " >
-                #{user.userSalt,jdbcType=VARCHAR},
-            </if>
+            #{user.userSalt,jdbcType=VARCHAR},
             <!-- 真实姓名 -->
-            <if test="user.realName!=null  and user.realName!='' " >
-                #{user.realName,jdbcType=VARCHAR},
-            </if>
+            #{user.realName,jdbcType=VARCHAR},
             <!-- 邮件地址 -->
-            <if test="user.email!=null  and user.email!='' " >
-                #{user.email,jdbcType=VARCHAR},
-            </if>
+            #{user.email,jdbcType=VARCHAR},
+            <!-- 创建时间 -->
+            #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            <!-- 创建人 -->
+            #{user.creator,jdbcType=VARCHAR},
         </trim>
         )
     </insert>
@@ -147,6 +149,10 @@
             real_name ,
             <!-- 邮件地址 -->
             email ,
+            <!-- 创建时间 -->
+            create_time ,
+            <!-- 创建人 -->
+            creator ,
         </trim>
         )VALUES
         <foreach collection="list" item="user"  separator="," > 
@@ -162,6 +168,10 @@
                 #{user.realName},
                 <!-- 邮件地址 -->
                 #{user.email},
+                <!-- 创建时间 -->
+                #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+                <!-- 创建人 -->
+                #{user.creator},
             </trim>
             )
         </foreach>
@@ -183,7 +193,7 @@
             </if>
             <!-- 用户名 -->
             <if test="user.userName !=null  and user.userName!='' " >
-                AND user_name = #{user.userName,jdbcType=VARCHAR} 
+                AND user_name LIKE CONCAT('%', #{user.userName,jdbcType=VARCHAR},'%') 
             </if>
             <!-- 密码 -->
             <if test="user.userPass !=null  and user.userPass!='' " >
@@ -195,49 +205,22 @@
             </if>
             <!-- 真实姓名 -->
             <if test="user.realName !=null  and user.realName!='' " >
-                AND real_name = #{user.realName,jdbcType=VARCHAR} 
+                AND real_name LIKE CONCAT('%', #{user.realName,jdbcType=VARCHAR},'%') 
             </if>
             <!-- 邮件地址 -->
             <if test="user.email !=null  and user.email!='' " >
-                AND email = #{user.email,jdbcType=VARCHAR} 
+                AND email LIKE CONCAT('%', #{user.email,jdbcType=VARCHAR},'%') 
+            </if>
+            <!-- 创建时间 -->
+            <if test="user.createTime !=null " >
+                AND create_time = #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date} 
+            </if>
+            <!-- 创建人 -->
+            <if test="user.creator !=null  and user.creator!='' " >
+                AND creator = #{user.creator,jdbcType=VARCHAR} 
             </if>
         </where>
          ORDER BY id DESC 
-         LIMIT #{start},#{pageSize}
-    </select>
-    
-    <!-- mapped statement for UserDAO.queryCount -->
-    <!-- 根据输入条件查询数据总数 -->
-    <select id="queryCount" resultType="long">
-        
-        SELECT COUNT(id) 
-          FROM user user
-        <where>
-            <!-- 主键 -->
-            <if test="user.id !=null " >
-                AND id = #{user.id,jdbcType=BIGINT,javaType=java.lang.Long} 
-            </if>
-            <!-- 用户名 -->
-            <if test="user.userName !=null  and user.userName!='' " >
-                AND user_name = #{user.userName,jdbcType=VARCHAR} 
-            </if>
-            <!-- 密码 -->
-            <if test="user.userPass !=null  and user.userPass!='' " >
-                AND user_pass = #{user.userPass,jdbcType=VARCHAR} 
-            </if>
-            <!-- 盐值 -->
-            <if test="user.userSalt !=null  and user.userSalt!='' " >
-                AND user_salt = #{user.userSalt,jdbcType=VARCHAR} 
-            </if>
-            <!-- 真实姓名 -->
-            <if test="user.realName !=null  and user.realName!='' " >
-                AND real_name = #{user.realName,jdbcType=VARCHAR} 
-            </if>
-            <!-- 邮件地址 -->
-            <if test="user.email !=null  and user.email!='' " >
-                AND email = #{user.email,jdbcType=VARCHAR} 
-            </if>
-        </where>
 
     </select>
     
@@ -248,15 +231,33 @@
         UPDATE user
         <set>
             <!-- 用户名 -->
-            user_name = #{user.userName,jdbcType=VARCHAR},
+            <if test="user.userName!=null  and user.userName!='' " >
+                user_name = #{user.userName,jdbcType=VARCHAR},
+            </if>
             <!-- 密码 -->
-            user_pass = #{user.userPass,jdbcType=VARCHAR},
+            <if test="user.userPass!=null  and user.userPass!='' " >
+                user_pass = #{user.userPass,jdbcType=VARCHAR},
+            </if>
             <!-- 盐值 -->
-            user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            <if test="user.userSalt!=null  and user.userSalt!='' " >
+                user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            </if>
             <!-- 真实姓名 -->
-            real_name = #{user.realName,jdbcType=VARCHAR},
+            <if test="user.realName!=null  and user.realName!='' " >
+                real_name = #{user.realName,jdbcType=VARCHAR},
+            </if>
             <!-- 邮件地址 -->
-            email = #{user.email,jdbcType=VARCHAR},
+            <if test="user.email!=null  and user.email!='' " >
+                email = #{user.email,jdbcType=VARCHAR},
+            </if>
+            <!-- 创建时间 -->
+            <if test="user.createTime!=null " >
+                create_time = #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <!-- 创建人 -->
+            <if test="user.creator!=null  and user.creator!='' " >
+                creator = #{user.creator,jdbcType=VARCHAR},
+            </if>
         </set>
         <where>
             <!-- 主键 -->
@@ -290,6 +291,14 @@
             <!-- 邮件地址 -->
             <if test="user.email!=null  and user.email!='' " >
                 email = #{user.email,jdbcType=VARCHAR},
+            </if>
+            <!-- 创建时间 -->
+            <if test="user.createTime!=null " >
+                create_time = #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <!-- 创建人 -->
+            <if test="user.creator!=null  and user.creator!='' " >
+                creator = #{user.creator,jdbcType=VARCHAR},
             </if>
         </set>
         <where>
@@ -343,13 +352,29 @@
         UPDATE user
         <set>
             <!-- 密码 -->
-            user_pass = #{user.userPass,jdbcType=VARCHAR},
+            <if test="user.userPass!=null  and user.userPass!='' " >
+                user_pass = #{user.userPass,jdbcType=VARCHAR},
+            </if>
             <!-- 盐值 -->
-            user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            <if test="user.userSalt!=null  and user.userSalt!='' " >
+                user_salt = #{user.userSalt,jdbcType=VARCHAR},
+            </if>
             <!-- 真实姓名 -->
-            real_name = #{user.realName,jdbcType=VARCHAR},
+            <if test="user.realName!=null  and user.realName!='' " >
+                real_name = #{user.realName,jdbcType=VARCHAR},
+            </if>
             <!-- 邮件地址 -->
-            email = #{user.email,jdbcType=VARCHAR},
+            <if test="user.email!=null  and user.email!='' " >
+                email = #{user.email,jdbcType=VARCHAR},
+            </if>
+            <!-- 创建时间 -->
+            <if test="user.createTime!=null " >
+                create_time = #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <!-- 创建人 -->
+            <if test="user.creator!=null  and user.creator!='' " >
+                creator = #{user.creator,jdbcType=VARCHAR},
+            </if>
         </set>
         <where>
             <!-- 用户名 -->
@@ -379,6 +404,14 @@
             <!-- 邮件地址 -->
             <if test="user.email!=null  and user.email!='' " >
                 email = #{user.email,jdbcType=VARCHAR},
+            </if>
+            <!-- 创建时间 -->
+            <if test="user.createTime!=null " >
+                create_time = #{user.createTime,jdbcType=TIMESTAMP,javaType=java.util.Date},
+            </if>
+            <!-- 创建人 -->
+            <if test="user.creator!=null  and user.creator!='' " >
+                creator = #{user.creator,jdbcType=VARCHAR},
             </if>
         </set>
         <where>

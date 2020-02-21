@@ -4,17 +4,25 @@
  */
 package com.cqliving.config.service.impl;
 
+import java.util.Date;
 import java.util.List;
+
 import org.apache.commons.codec.digest.DigestUtils;
+import org.cqliving.framework.cloud.mybatis.result.PaginationResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+
 import com.cqliving.config.common.CommonService;
 import com.cqliving.config.dal.dto.UserDto;
 import com.cqliving.config.dal.entity.UserDO;
 import com.cqliving.config.dal.mapper.UserDAO;
+import com.cqliving.config.dal.query.UserQuery;
 import com.cqliving.config.error.LoginReultCode;
 import com.cqliving.config.service.UserService;
+import com.cqliving.config.util.IDUtils;
+
 import cqliving.framework.cloud.core.error.BizException;
+import cqliving.framework.cloud.core.utils.Copier;
 
 /**
  * <p> user service实现层</p>
@@ -64,18 +72,8 @@ public class UserServiceImpl extends CommonService implements UserService{
      *    @return List<UserDO>
      */
     @Override
-    public List<UserDO> query( UserDO user,  long start,  int pageSize){
-        return userDAO.query( user , start , pageSize );
-    }
-
-    /**
-     * <p>根据输入条件查询数据总数</p>
-     *    @param user
-     *    @return long
-     */
-    @Override
-    public long queryCount( UserDO user){
-        return userDAO.queryCount( user );
+    public List<UserDO> query( UserDO user){
+        return userDAO.query( user);
     }
 
     /**
@@ -231,6 +229,47 @@ public class UserServiceImpl extends CommonService implements UserService{
         } catch (Exception e) {
             logger.warn("登出出错:{}", e);
         }
+    }
+    
+    @Override
+    public PaginationResponse<UserDto> page(UserQuery query) {
+        return page(getPage(query), copyList(userDAO.query(query.toDo(UserDO.class)), UserDto.class));
+    }
+    
+    @Override
+    public void add(UserDto user) {
+        
+        if(!user.getUserPass().equals(user.getUserPass2())) {
+            throw new BizException(LoginReultCode.USER_PASS2_ERROR);
+        }
+        
+        UserDO param = findByUserName(user.getUserName());
+        if (null != param) {
+            throw new BizException(LoginReultCode.USER_NAME_EXISTS);
+        }
+        
+        UserDO userDO = Copier.copy(user, UserDO.class);
+        userDO.setUserSalt(IDUtils.uuid());
+        userDO.setUserPass(DigestUtils.md5Hex(user.getUserPass().concat(userDO.getUserSalt())));
+        userDO.setCreateTime(new Date());
+        userDO.setCreator(getUser().getRealName());
+        insert(userDO);
+    }
+    
+    /** 默认密码 */
+    private static final String DEFAULT_PASS = "xhl123456";
+    
+    @Override
+    public void reset(Long userId) {
+        UserDO user = findById(userId);
+        if (null == user) {
+            throw new BizException(LoginReultCode.USER_NOT_EXISTS);
+        }
+        user.setUserSalt(IDUtils.uuid());
+        user.setUserPass(DigestUtils.md5Hex(DEFAULT_PASS.concat(user.getUserSalt())));
+        user.setCreateTime(new Date());
+        user.setCreator(getUser().getRealName());
+        updateSelective(user);
     }
 
 }

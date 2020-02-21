@@ -1,5 +1,5 @@
 <%@page pageEncoding="UTF-8" contentType="text/html; charset=UTF-8" %>
-
+<%@ taglib uri = "http://java.sun.com/jsp/jstl/core" prefix="c"%>
 <script type="text/javascript">
 	if (!'${user}'){
 		window.location.href="/login";
@@ -22,6 +22,17 @@
                   <dd data-name="mobile-pc"><a lay-href="/common-env">公共配置</a></dd>
               </dl>
             </li>
+            <c:if test="${user.userName eq 'admin'}">
+                <li data-name="component" class="layui-nav-item layui-nav-itemed">
+                  <a href="javascript:;" lay-tips="用户管理" lay-direction="2">
+                    <i class="layui-icon layui-icon-component"></i>
+                    <cite>用户管理</cite>
+                  </a>
+                  <dl class="layui-nav-child">
+                      <dd data-name="mobile-pc"><a lay-href="/users">账户管理</a></dd>
+                  </dl>
+                </li>
+            </c:if>
           </ul>
         </div>
       </div>

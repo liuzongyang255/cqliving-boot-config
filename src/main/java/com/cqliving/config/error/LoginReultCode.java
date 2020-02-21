@@ -27,6 +27,8 @@ public enum LoginReultCode implements ResponseMsgAble{
     USER_NOT_EXISTS(101, "用户不存在"),
     USER_PASS_ERROR(102, "密码错误"),
     USER_LOGIN_TIMEOUT(103, "登录过期"),
+    USER_NAME_EXISTS(104, "用户名已存在"),
+    USER_PASS2_ERROR(105, "两次密码不一致"),
     ;
     
     private int code;

@@ -1,12 +1,14 @@
 /*
- * http://www.leo-config.com Inc
+ * http://www.cqliving.com Inc
  * Copyright (c) 2020 All Rights Reserved.
  */
 package com.cqliving.config.dal.entity;
+import java.util.Date;
+
 import lombok.Data;
 import lombok.EqualsAndHashCode;
 /**
- * <p> user do层</p>
+ * <p>用户表 user do层</p>
  */
 @Data
 @EqualsAndHashCode(callSuper=false)
@@ -31,5 +33,11 @@ public class UserDO  extends cqliving.framework.cloud.core.pojo.BaseDO {
 
     /** 邮件地址 */
     private String email;
+
+    /** 创建时间 */
+    private Date createTime;
+
+    /** 创建人 */
+    private String creator;
 
 }

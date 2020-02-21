@@ -1,15 +1,16 @@
 /*
- * http://www.leo-config.com Inc
+ * http://www.cqliving.com Inc
  * Copyright (c) 2020 All Rights Reserved.
  */
 package com.cqliving.config.dal.mapper;
 
+import java.util.List;
+
 import org.apache.ibatis.annotations.Param;
 
-import java.util.List;
 import com.cqliving.config.dal.entity.UserDO;
 /**
- * <p> user dao层</p>
+ * <p>用户表 user dao层</p>
  */
  @SuppressWarnings("rawtypes")
 public interface UserDAO {
@@ -38,18 +39,9 @@ public interface UserDAO {
     /**
      * <p>根据输入条件分页查询数据</p>
      *    @param user
-     *    @param start
-     *    @param pageSize
      *    @return List<UserDO>
      */
-    public List<UserDO> query( @Param("user")UserDO user,  @Param("start")long start,  @Param("pageSize")int pageSize);
-
-    /**
-     * <p>根据输入条件查询数据总数</p>
-     *    @param user
-     *    @return long
-     */
-    public long queryCount( @Param("user")UserDO user);
+    public List<UserDO> query( @Param("user")UserDO user);
 
     /**
      * <p>根据主键修改数据</p>
