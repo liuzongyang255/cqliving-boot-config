@@ -6,7 +6,7 @@
 项目git地址：[http://222.178.212.166:10080/server/framework/cqliving-boot-config.git](http://222.178.212.166:10080/server/framework/cqliving-boot-config.git)
 ## 2.环境
 
-| ***名字***           | ***版本*** |
+| **名字**           | **版本** |
 | ------------------------ | -------------- |
 | JDK                      | 1.8            |
 | mysql驱动                | 5.1.47         |
