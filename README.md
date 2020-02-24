@@ -2,7 +2,7 @@
 ## 1.序言
 在微服务架构体系中配置中心是比较重要的组件之一，Spring Cloud官方自身提供了Spring Cloud Config分布式配置中心，由它来提供集中化的外部配置支持，它分为客户端和服务端两个部分。其中服务端称作配置中心，是一个独立的微服务应用。
 我们的配置中心是参照apollo编写的简单轻量版配置管理。可实现所有项目，所有环境配置远程调控，实时发布，高可用等。
-第一版的配置中心仅支持properties格式配置文件编写
+第一版的配置中心仅支持`properties`格式配置文件编写
 项目git地址：[http://222.178.212.166:10080/server/framework/cqliving-boot-config.git](http://222.178.212.166:10080/server/framework/cqliving-boot-config.git)
 ## 2.环境
 
@@ -40,12 +40,12 @@
 ![环境管理](md/4.png)
 
 ### 3.4公共配置管理
-比如有一些项目通用的配置，可以放在公共配置管理内，项目内就可以不用重复编写了，只需在3.3公共配置栏勾选即可，这里公共配置最好用环境名前缀区分，如”dev_测试数据库”
+比如有一些项目通用的配置，可以放在公共配置管理内，项目内就可以不用重复编写了，只需在3.3公共配置栏勾选即可，这里公共配置最好用环境名前缀区分，如`dev_测试数据库`
 
 ![公共配置管理](md/5.png)
 
 ## 4.服务端接入
-服务开发需要引用微服务框架包:cqliving-framework-cloud-config
+服务开发需要引用微服务框架包:`cqliving-framework-cloud-config`
 
 ```xml
 <parent>
@@ -117,7 +117,7 @@ public @interface CqlivingBootApplication {
 18:44:18.631 [Main] DEBUG org.cqliving.framework.cloud.config.holder.ConfigContextHolder - server.servlet.jsp.init-parameters.development=true
 ```
 ### 4.3高可用
-项目配置可以导出到各项目下，运行jar包时可以指定jar包外部配置文件，或者替换配置中心缓存路径/var/www/config/${appName}/application-${envName}.properties
+项目配置可以导出到各项目下，运行jar包时可以指定jar包外部配置文件，或者替换配置中心缓存路径`/var/www/config/${appName}/application-${envName}.properties`
 
 ![下载配置文件](md/6.png)
 
