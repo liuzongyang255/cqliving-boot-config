@@ -25,7 +25,7 @@
             <c:if test="${user.userName eq 'admin'}">
                 <li data-name="component" class="layui-nav-item layui-nav-itemed">
                   <a href="javascript:;" lay-tips="用户管理" lay-direction="2">
-                    <i class="layui-icon layui-icon-component"></i>
+                    <i class="layui-icon layui-icon-user"></i>
                     <cite>用户管理</cite>
                   </a>
                   <dl class="layui-nav-child">
