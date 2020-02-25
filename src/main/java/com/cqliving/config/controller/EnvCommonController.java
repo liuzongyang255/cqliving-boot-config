@@ -9,6 +9,7 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.cqliving.config.aspect.UserActLog;
 import com.cqliving.config.common.CommonController;
 import com.cqliving.config.dal.dto.EnvCommonDTO;
@@ -57,7 +58,7 @@ public class EnvCommonController extends CommonController{
     
     @PostMapping("save")
     @ResponseBody
-    @UserActLog(apiName = "保存公共配置", apiUrl = "common-env/save")
+    @UserActLog("保存公共配置")
     public BaseResponse save(EnvCommonDTO dto) {
         commonService.save(dto);
         return success();
@@ -65,7 +66,7 @@ public class EnvCommonController extends CommonController{
     
     @PostMapping("del")
     @ResponseBody
-    @UserActLog(apiName = "删除公共配置", apiUrl = "common-env/del")
+    @UserActLog("删除公共配置")
     public BaseResponse del(Long id) {
         commonService.deleteById(id);
         return success();

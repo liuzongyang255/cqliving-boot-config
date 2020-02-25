@@ -33,15 +33,7 @@ public @interface UserActLog {
      * @since      2020年2月10日 下午11:38:34
      * @return
      */
-    String apiName();
-    
-    /**
-     * [方法名]api url
-     * @author     leo
-     * @since      2020年2月10日 下午11:38:34
-     * @return
-     */
-    String apiUrl();
+    String value();
     
 }
 

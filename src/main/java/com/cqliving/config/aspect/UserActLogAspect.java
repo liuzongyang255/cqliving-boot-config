@@ -4,7 +4,9 @@ import java.lang.reflect.Method;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
@@ -14,6 +16,7 @@ import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
 import com.alibaba.fastjson.JSON;
 import com.cqliving.config.dal.entity.UserActLogDO;
 import com.cqliving.config.dal.entity.UserDO;
@@ -71,8 +74,8 @@ public class UserActLogAspect {
         UserActLogDO log = new UserActLogDO();
         log.setCreateTime(new Date());
         UserActLog ann = method.getAnnotation(UserActLog.class);
-        log.setApiName(ann.apiName());
-        log.setApiUrl(ann.apiUrl());
+        log.setApiName(ann.value());
+        log.setApiUrl(request.getRequestURI());
         //请求的参数
         Object[] args = joinPoint.getArgs();
         List<String> list = new ArrayList<>();

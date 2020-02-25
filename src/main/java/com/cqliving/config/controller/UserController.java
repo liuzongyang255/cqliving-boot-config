@@ -50,7 +50,7 @@ public class UserController extends CommonController{
     
     @PostMapping("add")
     @ResponseBody
-    @UserActLog(apiName = "新增用户", apiUrl = "login/add")
+    @UserActLog("新增用户")
     public BaseResponse add(@Validated(UserDto.Regist.class) UserDto user) {
         userService.add(user);
         return success();
@@ -58,7 +58,7 @@ public class UserController extends CommonController{
     
     @GetMapping("reset")
     @ResponseBody
-    @UserActLog(apiName = "重置密码", apiUrl = "users/page")
+    @UserActLog("重置密码")
     public BaseResponse reset(Long userId){
         userService.reset(userId);
         return success();

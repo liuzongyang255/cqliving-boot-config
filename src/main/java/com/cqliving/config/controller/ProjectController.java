@@ -80,7 +80,7 @@ public class ProjectController extends CommonController{
     
     @PostMapping("del")
     @ResponseBody
-    @UserActLog(apiName = "删除项目", apiUrl = "project/del")
+    @UserActLog("删除项目")
     public BaseResponse del(Long id){
         projectService.deleteById(id);
         return success();
@@ -94,7 +94,7 @@ public class ProjectController extends CommonController{
     
     @PostMapping("save")
     @ResponseBody
-    @UserActLog(apiName = "保存项目", apiUrl = "project/save")
+    @UserActLog("保存项目")
     public BaseResponse save(@Validated(ProjectDTO.Save.class) ProjectDTO dto) {
         projectService.save(dto);
         return success();
@@ -114,7 +114,7 @@ public class ProjectController extends CommonController{
     
     @PostMapping("env/save")
     @ResponseBody
-    @UserActLog(apiName = "保存环境配置", apiUrl = "project/env/save")
+    @UserActLog("保存环境配置")
     public BaseResponse envSave(EnvDTO envDTO) {
         envService.save(envDTO);
         return success();
@@ -122,7 +122,7 @@ public class ProjectController extends CommonController{
     
     @PostMapping("env/del")
     @ResponseBody
-    @UserActLog(apiName = "删除环境配置", apiUrl = "project/env/del")
+    @UserActLog("删除环境配置")
     public BaseResponse envDel(Long envId) {
         envService.deleteById(envId);
         return success();
@@ -130,7 +130,7 @@ public class ProjectController extends CommonController{
     
     @PostMapping("env/publish")
     @ResponseBody
-    @UserActLog(apiName = "发布环境配置", apiUrl = "project/env/publish")
+    @UserActLog("发布环境配置")
     public BaseResponse envPublish(Long envId) {
         // FIXME publish
         return success();

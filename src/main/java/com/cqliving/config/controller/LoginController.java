@@ -9,11 +9,13 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
+
 import com.cqliving.config.aspect.UserActLog;
 import com.cqliving.config.common.CommonController;
 import com.cqliving.config.dal.dto.UserDto;
 import com.cqliving.config.dal.entity.UserDO;
 import com.cqliving.config.service.UserService;
+
 import cn.hutool.core.lang.UUID;
 import cqliving.framework.cloud.core.utils.Copier;
 
@@ -54,7 +56,7 @@ public class LoginController extends CommonController{
     
     @PostMapping("login/add")
     @ResponseBody
-    @UserActLog(apiName = "新增用户", apiUrl = "login/add")
+    @UserActLog("新增用户")
     public BaseResponse add(@Validated(UserDto.Regist.class) UserDto user) {
         UserDO userDO = Copier.copy(user, UserDO.class);
         userDO.setUserSalt(UUID.randomUUID().toString().replace("-", "").toLowerCase());
