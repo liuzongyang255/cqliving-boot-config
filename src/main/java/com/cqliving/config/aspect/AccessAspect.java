@@ -1,7 +1,9 @@
 package com.cqliving.config.aspect;
 
 import java.util.List;
+
 import javax.servlet.http.HttpServletRequest;
+
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.Signature;
 import org.aspectj.lang.annotation.Around;
@@ -14,7 +16,10 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Component;
+
+import com.cqliving.config.dal.entity.UserDO;
 import com.cqliving.config.error.LoginReultCode;
+
 import cqliving.framework.cloud.core.error.BizException;
 
 /********************************************************/
@@ -57,9 +62,17 @@ public class AccessAspect{
         Signature s = point.getSignature();
         Class<?> returnType = ((MethodSignature) s).getReturnType();
         if (!allowUrls.contains(url) && null == user && BaseResponse.class.isAssignableFrom(returnType)) {
-            logger.warn("非法访问");
+            logger.warn("非法访问 user：{},url：{}", user, url);
             throw new BizException(LoginReultCode.USER_LOGIN_TIMEOUT);
         }
+        
+        if (url.startsWith("/users") 
+                && (null == user || !"admin".equals(((UserDO)user).getUserName())) 
+                && BaseResponse.class.isAssignableFrom(returnType)) {
+            logger.warn("非法访问 user：{},url：{}", user, url);
+            throw new BizException(LoginReultCode.USER_LOGIN_TIMEOUT);
+        }
+        
         return point.proceed();
     }
     
