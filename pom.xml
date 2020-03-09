@@ -18,7 +18,6 @@
 
     <properties>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-        <mysql.version>5.1.47</mysql.version>
         <!-- 升级tomcat版本 修复bug  see:  https://mp.weixin.qq.com/s/SkO9rQ7Xwa6hNH8fixi2lg -->
         <tomcat.version>9.0.31</tomcat.version>
     </properties>
