@@ -11,6 +11,8 @@
   <link rel="stylesheet" href="/layuiadmin/layui/css/layui.css" media="all">
   <link rel="stylesheet" href="/layuiadmin/style/admin.css" media="all">
   <link rel="stylesheet" href="/layuiadmin/style/custom.css" media="all">
+  <link rel="stylesheet" href="/layuiadmin/ext/codemirror/codemirror.css"  media="all"/>
+  <link rel="stylesheet" href="/layuiadmin/ext/codemirror/lucario.css"  media="all"/>
   <style type="text/css">
   
   	.layui-form-label {
@@ -50,6 +52,9 @@
     .num{
     	color:#01aaed
     }
+    .CodeMirror{
+        height: 700px
+    }
   </style>
 </head>
 <body>
@@ -82,9 +87,7 @@
           <div class="layui-card-header">配置信息</div>
           <div class="layui-card-body">
             <input type="hidden" id="env-content-id" />
-            <div id="env-content-edit" class="env-content-edit" contenteditable="true" >
-              <div class="content-node">&nbsp;</div>
-            </div>
+            <textarea id="env-content-edit" class="env-content-edit layui-hide"></textarea>
           </div>
         </div>
       </div>
@@ -93,6 +96,8 @@
   
   <script src="/layuiadmin/layui/layui.js"></script>  
   <script src="/js/common.js?v=1.0"></script>
+  <script type="text/javascript" src="/layuiadmin/ext/codemirror/codemirror.js"></script>
+  <script type="text/javascript" src="/layuiadmin/ext/codemirror/properties.js"></script>
   <script src="/js/common-env.js?v=1.0"></script>
 </body>
 </html>

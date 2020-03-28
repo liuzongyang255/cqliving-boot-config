@@ -29,21 +29,17 @@ layui.config({
               layer.msg('请选择环境')
               return;
             }
-            var content = '';
-            $('.content-node').each(function(i,e){
-            	content += $(this).text() +'\r\n';
-            })
+            var content = envEdit.getValue();
             if (content){
             	$.ajax({
             		url:'/common-env/save',
             		type:'post',
-            		data:{content:content,id:envId},
+            		data:{content:content.replace('\n\n','\n'),id:envId},
             		success:function(data){
             		    layer.msg(data.resultMessage);
             			active.reload();
             		}
             	})
-            	
             }
         },
         reload: function(){
@@ -57,15 +53,16 @@ layui.config({
             });
         }
     };
+    var envEdit;
     
   //监听工具条
     table.on('tool(table-page)', function(obj){
       var data = obj.data;
       if(obj.event === 'envEdit'){
     	  $('#env-content-id').val(data.id);
-    	  $('#env-content-edit').html('<div class="content-node">&nbsp;</div>');
+    	  $('#env-content-edit').next('.CodeMirror').remove();
     	  if(data.content){
-    		  $('#env-content-edit').html(genEnvDiv(data.content)) 
+    		  envEdit = genCodemirrorDiv('env-content-edit', data.content)
     	  }
       }else if (obj.event === 'update'){
     	  layeropen(data);
@@ -84,66 +81,23 @@ layui.config({
       }
     });
   
-    $('#env-content-edit').on('blur',function(){
-        var data = {};
-        if ($(this).find('.content-node .content-node').length > 0){
-            data = $(this).find('.content-node .content-node');
-        }else{
-            data = $(this).find('div');
-        }
-    	var content = '';
-    	data.each(function(i,e){
-    		content += $(this).text() +'\r\n';
-    	})
-    	$(this).html('<div class="content-node">&nbsp;</div>');
-    	if (content){
-    		$(this).html(genEnvDiv(content))
-    	}
-    	
-    })
-  
-    function genEnvDiv(data){
-    	var divs = data.split('\r\n');
-    	var obj = {};
-    	$.each(divs,function(i,e){
-    		if (!e){
-    			return;
-    		}
-    		if (e.trim().startsWith('#')){
-    			obj['#'+i] = e.trim();
-    		}else{
-    			var key = e.substr(0,e.indexOf('=')).trim();
-    			var value = e.substr(e.indexOf('=')+1,e.length);
-    			obj[key] = value;
-    		}
-    	})
-    	
-    	var result = '';
-    	$.each(obj, function(key){
-			var clazz = '', value = obj[key];
-			if (key.startsWith('#')){
-    			result += '<div class="content-node comment">'+value+'</div>';
-    		}else{
-    			if (value=="true" || value=="false"){
-    				clazz='bool';
-    			}else if (/^\d+(\.\d+)?$/.test(value)){
-    				clazz='num';
-    			}else{
-    				clazz='value';
-    			}
-    			var adder = '<div class="content-node"><code class="key">'+key+'</code>=<code class="'+clazz+'">'+value+'</code></div>';
-    			result += adder;
-    		}
-    	})
-    	return result;
-    }
-  
-    
     $('.table-operate-btn .layui-btn').on('click', function(){
       var type = $(this).data('type');
       active[type] ? active[type].call(this) : '';
     });
 
+    function genCodemirrorDiv(elementId, content, readOnly){
+    	var editor = CodeMirror.fromTextArea(document.getElementById(elementId), {
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            theme: 'lucario',
+            readOnly: readOnly
+          });
+        editor.setValue(content)
+        return editor;
+    }
+    
 
     function layeropen(data, id){
         layer.open({

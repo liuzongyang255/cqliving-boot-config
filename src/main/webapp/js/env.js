@@ -41,15 +41,13 @@ layui.config({
                layer.msg('请选择环境')
                return;
            }
-           var content = '';
-           $('.content-node').each(function(i, e) {
-               content += $(this).text() + '\r\n';
-           })
+           
+           var content = envEditor.getValue();
            if (content) {
                $.ajax({
                    url : '/project/env/save',
                    type : 'post',
-                   data : { content : content, id : envId , commonIds:commonId},
+                   data : { content : content.replace('\n\n','\n'), id : envId , commonIds:commonId},
                    success : function(data) {
                        if (data.success){
                            active.reload();
@@ -78,15 +76,19 @@ layui.config({
         active[type] ? active[type].call(this) : '';
     });
     
+    
+    var envEditor;// 当前环境编辑
+    var commonEditor;// 公共环境编辑
+    
     //监听工具条
     table.on('tool(table-page)', function(obj) {
         var data = obj.data;
         if (obj.event === 'envEdit') {
             $('#current-eidt').html('(当前编辑环境：'+data.envName+')');
             $('#env-content-id').val(data.id);
-            $('#env-content-edit').html('<div class="content-node">&nbsp;</div>');
+            $('#env-content-edit').text('').next('.CodeMirror').remove();
             if (data.content) {
-                $('#env-content-edit').html(genEnvDiv(data.content))
+            	envEditor = genCodemirrorDiv('env-content-edit', data.content)
             }
             // 加载公共配置
             $.ajax({
@@ -94,20 +96,22 @@ layui.config({
                 success:function(data){
                     if (data.success){
                         $('#env-common-box').html('');
-                        $('#env-common-content').html('');
+                        $('#env-common-content').text('').next('.CodeMirror').remove();
+                        var content = '';
                         $.each(data.data, function(i,e){
                             $('#env-common-box').append('<input name="common-id" class="common-checkbox" lay-filter="commonCheckbox" data="'+e.content.replace(new RegExp("\r\n","g"),'　')+'" type="checkbox" data-id="'+e.id+'" lay-skin="primary" title="'+e.envName+'" '+(e.used?'checked':'')+'>');
                             if (e.used){
-                                $('#env-common-content').append('<div id="common-'+e.id+'"><div># '+e.envName+'</div>'+genEnvDiv(e.content)+'</div>')
+                            	content +='\n# '+e.envName + '\n' + e.content
                             }
                         })
+                        commonEditor= genCodemirrorDiv('env-common-content', content, true);
+                        
                     }else{
                         layer.msg(data.resultMessage)
                     }
                     form.render();
                 }
             })
-            
         } else if (obj.event === 'update') {
             layeropen(data);
         } else if (obj.event === 'del') {
@@ -132,71 +136,32 @@ layui.config({
         
     });
     
+    function genCodemirrorDiv(elementId, content, readOnly){
+    	var editor = CodeMirror.fromTextArea(document.getElementById(elementId), {
+            lineNumbers: true,
+            styleActiveLine: true,
+            matchBrackets: true,
+            theme: 'lucario',
+            readOnly: readOnly
+          });
+        editor.setValue(content)
+        return editor;
+    }
+    
     form.on('checkbox(commonCheckbox)', function(obj){
         //当前元素
         var data = $(obj.elem);
         var check = obj.elem.checked;
+        var thisContent = '# '+data.attr('title')+'\n'+(data.attr('data').replace(new RegExp("　","g"), '\n'));
+        var value = commonEditor.getValue();
+        value = value?value:'';
+        
         if (check){
-            $('#env-common-content').append('<div id="common-'+data.attr('data-id')+'"><div># '+data.attr('title')+'</div>'+genEnvDiv(data.attr('data').replace(new RegExp("　","g"), '\r\n'))+'</div>')
+        	commonEditor.setValue(value +'\n'+ thisContent)
         }else{
-            $('#common-'+data.attr('data-id')).remove()
+        	commonEditor.setValue(value.replace('\n'+thisContent,''))
         }
     });
-    
-    
-    // 高亮div编辑事件
-    $('#env-content-edit').on('blur', function() {
-        var data = {};
-        if ($(this).find('.content-node .content-node').length > 0){
-            data = $(this).find('.content-node .content-node');
-        }else{
-            data = $(this).find('div');
-        }
-        var content = '';
-        data.each(function(i, e) {
-            content += $(this).text() + '\r\n';
-        })
-        $(this).html('<div class="content-node">&nbsp;</div>');
-        if (content) {
-            $(this).html(genEnvDiv(content))
-        }
-    })
-  
-    // 生成高亮div
-    function genEnvDiv(data){
-       	var divs = data.split('\r\n');
-       	var obj = {};
-       	$.each(divs,function(i,e){
-       		   if (!e){
-       			      return;
-       		   }
-       		   if (e.trim().startsWith('#')){
-       			      obj['#'+i] = e.trim();
-       		   }else{
-           			  var key = e.substr(0,e.indexOf('=')).trim();
-           			  var value = e.substr(e.indexOf('=')+1,e.length);
-           			  obj[key] = value;
-       		   }
-       	})
-       	var result = '';
-       	$.each(obj, function(key){
-       	    var clazz = '', value = obj[key];
-       	    if (key.startsWith('#')){
-       	        result += '<div class="content-node comment">'+value+'</div>';
-       	    }else{
-       	        if (value=="true" || value=="false"){
-       	            clazz='bool';
-       	        }else if (/^\d+(\.\d+)?$/.test(value)){
-       	            clazz='num';
-       	        }else{
-       	            clazz='value';
-       	        }
-       	        var adder = '<div class="content-node"><code class="key">'+key+'</code>=<code class="'+clazz+'">'+value+'</code></div>';
-       	        result += adder;
-       	    }
-       	})
-       	return result;
-    }
     
     function layeropen(data, id){
         layer.open({

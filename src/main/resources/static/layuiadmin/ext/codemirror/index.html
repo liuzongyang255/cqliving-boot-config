@@ -1,0 +1,35 @@
+<html>
+
+<head>
+    <title>codemirror</title>
+    <link rel="stylesheet" href="/layuiadmin/ext/codemirror/codemirror.css"  media="all"/>
+    <link rel="stylesheet" href="/layuiadmin/ext/codemirror/liquibyte.css"  media="all"/>
+</head>
+
+<body>
+<textarea id="code" name="code"></textarea>
+
+<textarea id="code1" name="code1"></textarea>
+
+<script type="text/javascript" src="/layuiadmin/ext/codemirror/codemirror.js"></script>
+<script type="text/javascript" src="/layuiadmin/ext/codemirror/javascript.js"></script>
+<script type="text/javascript">
+var editor = CodeMirror.fromTextArea(document.getElementById("code"), {
+    lineNumbers: true,
+    styleActiveLine: true,
+    matchBrackets: true
+  });
+editor.setOption('theme', 'liquibyte');
+
+var editor1 = CodeMirror.fromTextArea(document.getElementById("code1"), {
+    lineNumbers: true,
+    styleActiveLine: true,
+    matchBrackets: true
+  });
+editor1.setOption('theme', 'liquibyte');
+  
+</script>
+</body>
+
+
+</html>
