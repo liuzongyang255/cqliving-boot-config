@@ -53,17 +53,16 @@ layui.config({
             });
         }
     };
-    var envEdit;
     
+    var envEdit;
   //监听工具条
     table.on('tool(table-page)', function(obj){
       var data = obj.data;
       if(obj.event === 'envEdit'){
     	  $('#env-content-id').val(data.id);
     	  $('#env-content-edit').next('.CodeMirror').remove();
-    	  if(data.content){
-    		  envEdit = genCodemirrorDiv('env-content-edit', data.content)
-    	  }
+    	  $('#current-eidt').html('').html('(当前编辑环境：'+data.envName+')');
+		  envEdit = genCodemirrorDiv('env-content-edit', data.content);
       }else if (obj.event === 'update'){
     	  layeropen(data);
       }else if (obj.event === 'del'){
@@ -94,7 +93,7 @@ layui.config({
             theme: 'lucario',
             readOnly: readOnly
           });
-        editor.setValue(content)
+        editor.setValue(content?content:'')
         return editor;
     }
     
@@ -117,6 +116,7 @@ layui.config({
                     success:function(data){
                         layer.msg(data.resultMessage);
                         active.reload();
+                        
                     }
                 })
             },

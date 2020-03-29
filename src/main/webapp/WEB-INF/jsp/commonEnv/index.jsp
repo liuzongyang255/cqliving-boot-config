@@ -84,7 +84,7 @@
       </div>
       <div class="layui-col-md8">
         <div class="layui-card">
-          <div class="layui-card-header">配置信息</div>
+          <div class="layui-card-header">配置信息<t style="color: red;" id="current-eidt"></t></div>
           <div class="layui-card-body">
             <input type="hidden" id="env-content-id" />
             <textarea id="env-content-edit" class="env-content-edit layui-hide"></textarea>
@@ -98,6 +98,6 @@
   <script src="/js/common.js?v=1.0"></script>
   <script type="text/javascript" src="/layuiadmin/ext/codemirror/codemirror.js"></script>
   <script type="text/javascript" src="/layuiadmin/ext/codemirror/properties.js"></script>
-  <script src="/js/common-env.js?v=1.0"></script>
+  <script src="/js/common-env.js?v=1.1"></script>
 </body>
 </html>

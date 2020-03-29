@@ -108,6 +108,6 @@
   <script src="/js/common.js?v=1.0"></script>
   <script type="text/javascript" src="/layuiadmin/ext/codemirror/codemirror.js"></script>
   <script type="text/javascript" src="/layuiadmin/ext/codemirror/properties.js"></script>
-  <script src="/js/env.js?v=1.2"></script>
+  <script src="/js/env.js?v=1.5"></script>
 </body>
 </html>

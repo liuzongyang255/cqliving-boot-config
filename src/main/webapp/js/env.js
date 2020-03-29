@@ -87,9 +87,7 @@ layui.config({
             $('#current-eidt').html('(当前编辑环境：'+data.envName+')');
             $('#env-content-id').val(data.id);
             $('#env-content-edit').text('').next('.CodeMirror').remove();
-            if (data.content) {
-            	envEditor = genCodemirrorDiv('env-content-edit', data.content)
-            }
+        	envEditor = genCodemirrorDiv('env-content-edit', data.content)
             // 加载公共配置
             $.ajax({
                 url:'/common-env/listWithUsed?envId='+data.id,
@@ -99,7 +97,8 @@ layui.config({
                         $('#env-common-content').text('').next('.CodeMirror').remove();
                         var content = '';
                         $.each(data.data, function(i,e){
-                            $('#env-common-box').append('<input name="common-id" class="common-checkbox" lay-filter="commonCheckbox" data="'+e.content.replace(new RegExp("\r\n","g"),'　')+'" type="checkbox" data-id="'+e.id+'" lay-skin="primary" title="'+e.envName+'" '+(e.used?'checked':'')+'>');
+                        	var clearData = e.content?e.content.replace(new RegExp("\n","g"),'　'):'';
+                            $('#env-common-box').append('<input name="common-id" class="common-checkbox" lay-filter="commonCheckbox" data="'+clearData+'" type="checkbox" data-id="'+e.id+'" lay-skin="primary" title="'+e.envName+'" '+(e.used?'checked':'')+'>');
                             if (e.used){
                             	content +='\n# '+e.envName + '\n' + e.content
                             }
@@ -144,7 +143,7 @@ layui.config({
             theme: 'lucario',
             readOnly: readOnly
           });
-        editor.setValue(content)
+        editor.setValue(content?content:'')
         return editor;
     }
     
@@ -152,7 +151,8 @@ layui.config({
         //当前元素
         var data = $(obj.elem);
         var check = obj.elem.checked;
-        var thisContent = '# '+data.attr('title')+'\n'+(data.attr('data').replace(new RegExp("　","g"), '\n'));
+    	var clearData = data.attr('data')?data.attr('data').replace(new RegExp("　","g"), '\n'):'';
+        var thisContent = '# '+data.attr('title')+'\n'+clearData;
         var value = commonEditor.getValue();
         value = value?value:'';
         
